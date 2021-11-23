@@ -23,4 +23,8 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ScrumMasters.Webshop.WebAPI\ScrumMasters.Webshop.WebAPI.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -22,4 +22,8 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ScrumMasters.Webshop.DataAccess\ScrumMasters.Webshop.DataAccess.csproj" />
+    </ItemGroup>
+
 </Project>
