@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace ScrumMasters.Core.Test
+namespace ScrumMasters.Webshop.Core.Test
 {
     public class UnitTest1
     {
