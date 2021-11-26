@@ -1,3 +1,0 @@
-Bootstrap install - npm install --save bootstrap@
-
-angular.json path - node_modules/bootstrap/dist/css/bootstrap.min.css
