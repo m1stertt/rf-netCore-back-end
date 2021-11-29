@@ -5,10 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="5.0.12" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.12" />
@@ -21,6 +17,10 @@
       <ProjectReference Include="..\ScrumMasters.Webshop.DataAccess\ScrumMasters.Webshop.DataAccess.csproj" />
       <ProjectReference Include="..\ScrumMasters.Webshop.Domain\ScrumMasters.Webshop.Domain.csproj" />
       <ProjectReference Include="..\ScrumMasters.Webshop.Security\ScrumMasters.Webshop.Security.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers" />
     </ItemGroup>
 
 </Project>
