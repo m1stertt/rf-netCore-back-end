@@ -4,5 +4,6 @@ namespace ScrumMasters.Webshop.Core
 {
     public class Class1
     {
+        //
     }
 }
