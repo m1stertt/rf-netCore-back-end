@@ -71,6 +71,8 @@ namespace ScrumMasters.Webshop.WebAPI
             // });
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
             // services.AddScoped<IAuthService, AuthService>();
             //
             // services.AddAuthentication(option =>
@@ -135,7 +137,7 @@ namespace ScrumMasters.Webshop.WebAPI
 
                 mainContext.Database.EnsureDeleted();
                 mainContext.Database.EnsureCreated();
-                // mainContext.Users.Add(new UserEntity { ProductName = "Bilbo" });
+                //mainContext.Users.Add(new UserEntity { ProductName = "Bilbo" });
                 mainContext.SaveChanges();
                 mainContext.Products.AddRange(
                     new ProductEntity {ProductName = "P1"},
