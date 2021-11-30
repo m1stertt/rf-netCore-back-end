@@ -27,6 +27,17 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             {
                 return Ok(_productService.GetProducts());
             }
+            
+            [HttpPost]  
+            public ActionResult<Product> Post([FromBody] Product product)
+            {
+                if (product == null)
+                {
+                    return BadRequest("A product is required to create a product in the repository");
+                }
+                
+                return Ok(_productService.Create(product));
+            }
     
     }
 }

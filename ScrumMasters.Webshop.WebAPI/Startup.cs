@@ -39,7 +39,7 @@ namespace ScrumMasters.Webshop.WebAPI
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo {Title = "Innotech.LegosforLife.WebApi", Version = "v1"});
+                options.SwaggerDoc("v1", new OpenApiInfo {Title = "ScrumMasters.Webshop.WebApi", Version = "v1"});
                 //     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 //     {
                 //         ProductName = "Authorization",
@@ -135,7 +135,6 @@ namespace ScrumMasters.Webshop.WebAPI
 
                 mainContext.Database.EnsureDeleted();
                 mainContext.Database.EnsureCreated();
-                // mainContext.Users.Add(new UserEntity { ProductName = "Bilbo" });
                 mainContext.SaveChanges();
                 mainContext.Products.AddRange(
                     new ProductEntity {ProductName = "P1"},
@@ -175,6 +174,17 @@ namespace ScrumMasters.Webshop.WebAPI
                 // authDbContext.SaveChanges();
 
                 #endregion
+                
+                // app.UseMiddleware<JWTMiddleware>();
+            
+                app.UseHttpsRedirection();
+
+                app.UseRouting();
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+                app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             }
         }
     }

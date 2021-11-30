@@ -6,5 +6,6 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
     public interface IProductRepository
     {
         List<Product> FindAll();
+        Product Create(Product product);
     }
 }
