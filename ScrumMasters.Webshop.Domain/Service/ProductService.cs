@@ -18,7 +18,10 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _productRepository.FindAll();
         }
-        
-  
+
+        public Product Create(Product product)
+        {
+            return _productRepository.Create(product);
+        }
     }
     }
