@@ -18,5 +18,25 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _categoryRepository.FindAll();
         }
+
+        public Category GetCategoryById(int id)
+        {
+            return _categoryRepository.GetById(id);
+        }
+
+        public Category DeleteById(int id)
+        {
+            return _categoryRepository.DeleteById(id);
+        }
+
+        public Category Update(Category category)
+        {
+            return _categoryRepository.Update(category);
+        }
+
+        public Category Create(Category category)
+        {
+            return _categoryRepository.Create(category);
+        }
     }
 }

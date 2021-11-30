@@ -3,9 +3,7 @@
     public class Category
     {
         public int Id { get; set; }
-        
-        public string URLString { get; set; }
-        
-        public double Title { get; set; }
+
+        public string Name { get; set; }
     }
 }

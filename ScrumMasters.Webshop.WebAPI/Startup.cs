@@ -103,21 +103,22 @@ namespace ScrumMasters.Webshop.WebAPI
             //         policy => policy.Requirements.Add(new CanReadProductsHandler()));
             // });
             services.AddCors(options =>
-                options.AddPolicy("Development-cors", devPoliciy =>
+            {
+                options.AddPolicy("Development-cors", devPolicy =>
                 {
-                    devPoliciy
-                        .WithOrigins("http://localhost:4200")
+                    devPolicy
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
-
-                    options.AddPolicy("Production-cors", prodPolicy =>
-                    {
-                        prodPolicy
-                            .WithOrigins("https://ruds-fashion2021.azurewebsites.net/")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-                }));
+                });
+                options.AddPolicy("Production-cors", prodPolicy =>
+                {
+                    prodPolicy
+                        .WithOrigins("https://ruds-fashion2021.azurewebsites.net/")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,7 +131,7 @@ namespace ScrumMasters.Webshop.WebAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Innotech.LegosforLife.WebApi v1"));
-                app.UseCors("development-policy");
+                app.UseCors("Development-cors");
 
 
                 #region Setup Contexts
@@ -143,6 +144,10 @@ namespace ScrumMasters.Webshop.WebAPI
                     new ProductEntity {ProductName = "P1"},
                     new ProductEntity {ProductName = "P2"},
                     new ProductEntity {ProductName = "P3"});
+                mainContext.Categories.AddRange(
+                        new CategoryEntity {Name = "Bukser"},
+                        new CategoryEntity {Name = "Sko"},
+                        new CategoryEntity {Name = "Kjoler"});
                 mainContext.SaveChanges();
 
                 // authDbContext.Database.EnsureDeleted();
@@ -177,6 +182,17 @@ namespace ScrumMasters.Webshop.WebAPI
                 // authDbContext.SaveChanges();
 
                 #endregion
+                
+                //app.UseMiddleware<JWTMiddleware>();
+            
+                app.UseHttpsRedirection();
+
+                app.UseRouting();
+
+                //app.UseAuthentication();
+                //app.UseAuthorization();
+
+                app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             }
         }
     }
