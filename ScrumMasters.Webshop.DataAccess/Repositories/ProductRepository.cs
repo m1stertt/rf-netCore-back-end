@@ -81,5 +81,19 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductImageUrl = productEntity.ProductImageUrl
             };
         }
+
+        public Product DeleteById(int id)
+        {
+            var savedEntity = _context.Products.Remove(new ProductEntity() {Id = id}).Entity;
+            _context.SaveChanges();
+            return new Product()
+            {
+                Id = savedEntity.Id,
+                ProductName = savedEntity.ProductName,
+                ProductPrice = savedEntity.ProductPrice,
+                ProductDescription = savedEntity.ProductDescription,
+                ProductImageUrl = savedEntity.ProductImageUrl
+            };
+        }
     }
 }

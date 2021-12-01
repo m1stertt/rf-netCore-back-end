@@ -60,6 +60,16 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
 
                 return Ok(_productService.Update(product));
             }
+            
+            [HttpDelete("{id:int}")]
+            public ActionResult<Product> DeleteById(int id)
+            {
+                if (id == 0)
+                {
+                    return BadRequest("An ID is required to delete by id.");
+                }
+                return Ok(_productService.DeleteById(id));
+            }
     
     }
 }
