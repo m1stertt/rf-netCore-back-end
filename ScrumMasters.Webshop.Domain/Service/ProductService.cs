@@ -23,5 +23,15 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _productRepository.Create(product);
         }
+
+        public Product GetProductById(int id)
+        {
+            return _productRepository.FindById(id);
+        }
+
+        public Product Update(Product product)
+        {
+            return _productRepository.Update(product);
+        }
     }
     }

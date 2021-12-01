@@ -30,6 +30,15 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 .ToList();
         }
 
+        public Product FindById(int id)
+        {
+            return _context.Products.Select(product => new Product()
+            {
+                Id = product.Id,
+                ProductName = product.ProductName
+            }).FirstOrDefault(product => product.Id == id);
+        }
+
         public Product Create(Product product)
         {
             var entity = new ProductEntity()
@@ -49,6 +58,27 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
                 ProductImageUrl = savedEntity.ProductImageUrl
+            };
+        }
+
+        public Product Update(Product product)
+        {
+            var productEntity = _context.Update(new ProductEntity
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                ProductPrice = product.ProductPrice,
+                ProductDescription = product.ProductDescription,
+                ProductImageUrl = product.ProductImageUrl
+            }).Entity;
+            _context.SaveChanges();
+            return new Product
+            {
+                Id = product.Id,
+                ProductName = productEntity.ProductName,
+                ProductPrice = productEntity.ProductPrice,
+                ProductDescription = productEntity.ProductDescription,
+                ProductImageUrl = productEntity.ProductImageUrl
             };
         }
     }
