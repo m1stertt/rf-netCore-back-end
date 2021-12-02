@@ -90,14 +90,20 @@ namespace ScrumMasters.Webshop.WebAPI
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]
                  };
             });
-             services.AddSingleton<IAuthorizationHandler, CanWriteProductsHandler>();
-             services.AddSingleton<IAuthorizationHandler, CanReadProductsHandler>();
+            services.AddSingleton<IAuthorizationHandler, AdminHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageCategoriesHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageProductsHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageUsersHandler>();
              services.AddAuthorization(options =>
              {
-                 options.AddPolicy(nameof(CanWriteProductsHandler), 
-                     policy => policy.Requirements.Add(new CanWriteProductsHandler()));
-                 options.AddPolicy(nameof(CanReadProductsHandler), 
-                     policy => policy.Requirements.Add(new CanReadProductsHandler()));
+                 options.AddPolicy(nameof(AdminHandler), 
+                     policy => policy.Requirements.Add(new AdminHandler()));
+                 options.AddPolicy(nameof(CanManageCategoriesHandler), 
+                     policy => policy.Requirements.Add(new CanManageCategoriesHandler()));
+                 options.AddPolicy(nameof(CanManageProductsHandler), 
+                     policy => policy.Requirements.Add(new CanManageProductsHandler()));
+                 options.AddPolicy(nameof(CanManageUsersHandler), 
+                     policy => policy.Requirements.Add(new CanManageUsersHandler()));
              });
             services.AddCors(options =>
             {
@@ -166,14 +172,19 @@ namespace ScrumMasters.Webshop.WebAPI
                  });
                  authDbContext.Permissions.AddRange(new Permission()
                  {
-                     Name = "CanWriteProducts"
+                     Name = "Admin"
                  }, new Permission()
                  {
-                     Name = "CanReadProducts"
+                     Name = "CanManageProducts"
+                 }, new Permission()
+                 {
+                     Name = "CanManageCategories"
+                 }, new Permission()
+                 {
+                     Name = "CanManageUsers"
                  });
                  authDbContext.SaveChanges();
                   authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 1, UserId = 1 });
-                  authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 2, UserId = 1 });
                  authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 2, UserId = 2 });
                  authDbContext.SaveChanges();
 

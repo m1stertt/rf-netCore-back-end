@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using ScrumMasters.Webshop.Security;
 using ScrumMasters.Webshop.Security.Model;
 using ScrumMasters.Webshop.WebAPI.Dtos.Auth;
-using ScrumMasters.Webshop.WebAPI.PolicyHandlers;
 
 namespace ScrumMasters.Webshop.WebAPI.Controllers
 {
@@ -37,7 +36,6 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(new {Token = tokenString, Message = "Success"});
         }
 
-        [Authorize(Policy = nameof(CanReadProductsHandler))]
         [HttpGet(nameof(GetProfile))]
         public ActionResult<ProfileDto> GetProfile()
         {

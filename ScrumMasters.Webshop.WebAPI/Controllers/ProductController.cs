@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
+using ScrumMasters.Webshop.WebAPI.PolicyHandlers;
 
 namespace ScrumMasters.Webshop.WebAPI.Controllers
 {
@@ -39,6 +41,8 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 return Ok(_productService.GetProductById(id));
             }
             
+            
+            [Authorize(Policy = nameof(CanManageProductsHandler))]
             [HttpPost]  
             public ActionResult<Product> Post([FromBody] Product product)
             {
@@ -50,6 +54,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 return Ok(_productService.Create(product));
             }
             
+            [Authorize(Policy = nameof(CanManageProductsHandler))]
             [HttpPut("{id}")]  
             public ActionResult<Product> Update(int id, [FromBody] Product product)
             {
@@ -61,6 +66,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 return Ok(_productService.Update(product));
             }
             
+            [Authorize(Policy = nameof(CanManageProductsHandler))]
             [HttpDelete("{id:int}")]
             public ActionResult<Product> DeleteById(int id)
             {
