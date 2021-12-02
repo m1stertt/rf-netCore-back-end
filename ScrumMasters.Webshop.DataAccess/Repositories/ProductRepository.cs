@@ -9,13 +9,13 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        
         private readonly MainDbContext _context;
-        
+
         public ProductRepository(MainDbContext ctx)
         {
             _context = ctx ?? throw new InvalidDataException("Product Repository Must have a DBContext");
         }
+
         public List<Product> FindAll()
         {
             return _context.Products
@@ -30,6 +30,13 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 .ToList();
         }
 
+        public PagedList<Product> GetProducts(ProductParameters productParameters)
+        {
+            return PagedList<Product>.ToPagedList(FindAll().OrderBy(product => product.ProductName),
+                productParameters.PageNumber,
+                productParameters.PageSize);
+        }
+
         public Product FindById(int id)
         {
             return _context.Products.Select(product => new Product()
@@ -41,7 +48,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Product Create(Product product)
         {
-            var entity = new ProductEntity()
+            var productEntity = new ProductEntity()
             {
                 Id = product.Id,
                 ProductName = product.ProductName,
@@ -49,7 +56,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductDescription = product.ProductDescription,
                 ProductImageUrl = product.ProductImageUrl
             };
-            var savedEntity = _context.Products.Add(entity).Entity;
+            var savedEntity = _context.Products.Add(productEntity).Entity;
             _context.SaveChanges();
             return new Product()
             {

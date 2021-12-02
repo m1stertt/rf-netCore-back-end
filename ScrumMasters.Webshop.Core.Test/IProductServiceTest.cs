@@ -19,7 +19,8 @@ namespace ScrumMasters.Webshop.Core.Test
                 public void GetProducts_WithNoParam_ReturnsListOfAllProducts()
                 {
                     var mock = new Mock<IProductService>();
-                    var fakeList = new List<Product>();
+                    var mockList = new Mock<Product>();
+                    var fakeList = new List<Product>() { mockList.Object };
                     mock.Setup(s => s.GetProducts())
                         .Returns(fakeList);
                     var service = mock.Object;
