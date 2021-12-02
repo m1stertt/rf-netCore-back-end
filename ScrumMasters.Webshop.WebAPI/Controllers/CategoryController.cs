@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
+using ScrumMasters.Webshop.WebAPI.PolicyHandlers;
 
 namespace ScrumMasters.Webshop.WebAPI.Controllers
 {
@@ -38,6 +40,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_categoryService.GetCategoryById(id));
         }
         
+        [Authorize(Policy = nameof(CanManageCategoriesHandler))]
         [HttpPost]  
         public ActionResult<Category> Post([FromBody] Category category)
         {
@@ -49,6 +52,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_categoryService.Create(category));
         }
         
+        [Authorize(Policy = nameof(CanManageCategoriesHandler))]
         [HttpDelete("{id:int}")]
         public ActionResult<Category> DeleteById(int id)
         {
@@ -59,12 +63,13 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_categoryService.DeleteById(id));
         }
         
+        [Authorize(Policy = nameof(CanManageCategoriesHandler))]
         [HttpPut("{id}")]  
         public ActionResult<Category> Update(int id, [FromBody] Category category)
         {
             if (id < 1 || id != category.Id)
             {
-                return BadRequest("Correct id is needed to update a product.");
+                return BadRequest("Correct id is needed to update a category.");
             }
             
             return Ok(_categoryService.Update(category));
