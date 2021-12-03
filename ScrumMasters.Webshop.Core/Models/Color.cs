@@ -2,11 +2,11 @@
 
 namespace ScrumMasters.Webshop.Core.Models
 {
-    public class Category
+    public class Color
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Title { get; set; }
         
         public List<Product> Products { get; set; }
     }

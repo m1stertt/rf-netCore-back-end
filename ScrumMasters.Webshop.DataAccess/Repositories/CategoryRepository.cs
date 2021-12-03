@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.DataAccess.Entities;
 using ScrumMasters.Webshop.Domain.IRepositories;
@@ -32,7 +33,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 .Select(pe => new Category
                 {
                     Id = pe.Id,
-                    Name = pe.Name
+                    Name = pe.Name,
+                    Products = pe.Products.Select(px=>new Product{Id = px.Id,ProductName = px.ProductName}).ToList()
                 }).FirstOrDefault(category => category.Id == id);
         }
         

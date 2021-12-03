@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -72,6 +74,10 @@ namespace ScrumMasters.Webshop.WebAPI
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IColorRepository, ColorRepository>();
+            services.AddScoped<IColorService, ColorService>();
+            services.AddScoped<ISizeRepository, SizeRepository>();
+            services.AddScoped<ISizeService, SizeService>();
             services.AddScoped<IAuthService, AuthService>();
             //
             services.AddAuthentication(option =>
@@ -90,14 +96,26 @@ namespace ScrumMasters.Webshop.WebAPI
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]
                  };
             });
-             services.AddSingleton<IAuthorizationHandler, CanWriteProductsHandler>();
-             services.AddSingleton<IAuthorizationHandler, CanReadProductsHandler>();
+            services.AddSingleton<IAuthorizationHandler, AdminHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageCategoriesHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageProductsHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageUsersHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageSizesHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageColorsHandler>();
              services.AddAuthorization(options =>
              {
-                 options.AddPolicy(nameof(CanWriteProductsHandler), 
-                     policy => policy.Requirements.Add(new CanWriteProductsHandler()));
-                 options.AddPolicy(nameof(CanReadProductsHandler), 
-                     policy => policy.Requirements.Add(new CanReadProductsHandler()));
+                 options.AddPolicy(nameof(AdminHandler), 
+                     policy => policy.Requirements.Add(new AdminHandler()));
+                 options.AddPolicy(nameof(CanManageCategoriesHandler), 
+                     policy => policy.Requirements.Add(new CanManageCategoriesHandler()));
+                 options.AddPolicy(nameof(CanManageProductsHandler), 
+                     policy => policy.Requirements.Add(new CanManageProductsHandler()));
+                 options.AddPolicy(nameof(CanManageUsersHandler), 
+                     policy => policy.Requirements.Add(new CanManageUsersHandler()));
+                 options.AddPolicy(nameof(CanManageSizesHandler), 
+                     policy => policy.Requirements.Add(new CanManageSizesHandler()));
+                 options.AddPolicy(nameof(CanManageColorsHandler), 
+                     policy => policy.Requirements.Add(new CanManageColorsHandler()));
              });
             services.AddCors(options =>
             {
@@ -138,19 +156,48 @@ namespace ScrumMasters.Webshop.WebAPI
                 mainContext.Database.EnsureDeleted();
                 mainContext.Database.EnsureCreated();
                 mainContext.SaveChanges();
-                mainContext.Products.AddRange(
-                    new ProductEntity {ProductName = "P1"},
-                    new ProductEntity {ProductName = "P2"},
-                    new ProductEntity {ProductName = "P3"});
-                mainContext.Categories.AddRange(
-                        new CategoryEntity {Name = "Bukser"},
-                        new CategoryEntity {Name = "Sko"},
-                        new CategoryEntity {Name = "Kjoler"});
+                ProductEntity pe1 = new ProductEntity {ProductName = "P1",ProductFeatured=true,Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>()};
+                ProductEntity pe2 = new ProductEntity {ProductName = "P2",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>()};
+                ProductEntity pe3 = new ProductEntity {ProductName = "P3",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>()};
+                
+                CategoryEntity ce1 = new CategoryEntity {Name = "Bukser"};
+                CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
+                CategoryEntity ce3 = new CategoryEntity {Name = "Kjoler"};
+                
+                ColorEntity color1 = new ColorEntity { Title="Rød"};
+                ColorEntity color2 = new ColorEntity { Title="Blå"};
+                ColorEntity color3 = new ColorEntity { Title="Gul"};
+                ColorEntity color4 = new ColorEntity { Title="Grøn"};
+                ColorEntity color5 = new ColorEntity { Title="Grå"};
+
+                SizeEntity se1 = new SizeEntity { Title="30/30" };
+                SizeEntity se2 = new SizeEntity { Title="25" };
+                SizeEntity se3 = new SizeEntity { Title="30" };
+                
+                pe1.Categories.Add(ce1);
+                pe1.Categories.Add(ce2);
+                pe1.Colors.Add(color1);
+                pe1.Colors.Add(color5);
+                pe1.Sizes.Add(se1);
+
+                pe2.Categories.Add(ce2);
+                pe2.Colors.Add(color2);
+                pe2.Colors.Add(color1);
+                pe2.Sizes.Add(se1);
+                pe2.Sizes.Add(se2);
+                
+                pe3.Categories.Add(ce3);
+                pe3.Colors.Add(color3);
+                pe3.Colors.Add(color4);
+                pe3.Sizes.Add(se3);
+                
+                mainContext.Products.AddRange(pe1,pe2,pe3);
                 mainContext.SaveChanges();
 
                 authDbContext.Database.EnsureDeleted();
                 authDbContext.Database.EnsureCreated();
                 AuthService.CreateHashAndSalt("123456", out var passwordHash, out var salt);
+                
                 authDbContext.LoginUsers.Add(new LoginUser
                 {
                      UserName = "ljuul",
@@ -168,14 +215,20 @@ namespace ScrumMasters.Webshop.WebAPI
                  });
                  authDbContext.Permissions.AddRange(new Permission()
                  {
-                     Name = "CanWriteProducts"
+                     Name = "Admin"
                  }, new Permission()
                  {
-                     Name = "CanReadProducts"
+                     Name = "CanManageProducts"
+                 }, new Permission()
+                 {
+                     Name = "CanManageCategories"
+                 }, new Permission()
+                 {
+                     Name = "CanManageUsers"
                  });
                  authDbContext.SaveChanges();
-                  authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 1, UserId = 1 });
-                  authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 2, UserId = 1 });
+                 authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 1, UserId = 1 });
+                 authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 2, UserId = 1 });
                  authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 2, UserId = 2 });
                  authDbContext.SaveChanges();
 

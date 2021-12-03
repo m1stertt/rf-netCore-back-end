@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.DataAccess.Entities;
 using ScrumMasters.Webshop.Domain.IRepositories;
+using Size = ScrumMasters.Webshop.Core.Models.Size;
+using Color = ScrumMasters.Webshop.Core.Models.Color;
 
 namespace ScrumMasters.Webshop.DataAccess.Repositories
-{
+{//https://github.com/dotnet/efcore/issues/22868
     public class ProductRepository : IProductRepository
     {
         private readonly MainDbContext _context;
@@ -18,14 +21,17 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public List<Product> FindAll()
         {
-            return _context.Products
-                .Select(pe => new Product
+            return _context.Products.Select(pe => new Product
                 {
                     Id = pe.Id,
                     ProductName = pe.ProductName,
                     ProductPrice = pe.ProductPrice,
                     ProductDescription = pe.ProductDescription,
-                    ProductImageUrl = pe.ProductImageUrl
+                    ProductImageUrl = pe.ProductImageUrl,
+                    ProductFeatured = pe.ProductFeatured,
+                    Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
+                    Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
+                    Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
                 })
                 .ToList();
         }
@@ -39,10 +45,17 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Product FindById(int id)
         {
-            return _context.Products.Select(product => new Product()
+            return _context.Products.Select(pe => new Product()
             {
-                Id = product.Id,
-                ProductName = product.ProductName
+                Id = pe.Id,
+                ProductName = pe.ProductName,
+                ProductPrice = pe.ProductPrice,
+                ProductDescription = pe.ProductDescription,
+                ProductImageUrl = pe.ProductImageUrl,
+                ProductFeatured = pe.ProductFeatured,
+                Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
+                Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
+                Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
             }).FirstOrDefault(product => product.Id == id);
         }
 
@@ -54,7 +67,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = product.ProductName,
                 ProductPrice = product.ProductPrice,
                 ProductDescription = product.ProductDescription,
-                ProductImageUrl = product.ProductImageUrl
+                ProductImageUrl = product.ProductImageUrl,
+                ProductFeatured = product.ProductFeatured,
             };
             var savedEntity = _context.Products.Add(productEntity).Entity;
             _context.SaveChanges();
@@ -64,29 +78,27 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = savedEntity.ProductName,
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
-                ProductImageUrl = savedEntity.ProductImageUrl
+                ProductImageUrl = savedEntity.ProductImageUrl,
+                ProductFeatured = savedEntity.ProductFeatured,
             };
         }
 
         public Product Update(Product product)
         {
-            var productEntity = _context.Update(new ProductEntity
-            {
-                Id = product.Id,
-                ProductName = product.ProductName,
-                ProductPrice = product.ProductPrice,
-                ProductDescription = product.ProductDescription,
-                ProductImageUrl = product.ProductImageUrl
-            }).Entity;
+            ProductEntity edit= _context.Products.Include("Categories").Include("Colors").Include("Sizes").Single(productt => productt.Id == product.Id);
+            edit.Categories.Clear();
+            edit.Colors.Clear();
+            edit.Sizes.Clear();
+            edit.ProductName = product.ProductName;
+            edit.ProductPrice = product.ProductPrice;
+            edit.ProductDescription = product.ProductDescription;
+            edit.ProductImageUrl = product.ProductImageUrl;
+            edit.ProductFeatured = product.ProductFeatured;
+            edit.Categories = product.Categories.Select(px =>_context.Categories.Single(pe=>px.Id==pe.Id)).ToList();
+            edit.Sizes = product.Sizes.Select(px =>_context.Sizes.Single(pe=>px.Id==pe.Id)).ToList();
+            edit.Colors = product.Colors.Select(px =>_context.Colors.Single(pe=>px.Id==pe.Id)).ToList();
             _context.SaveChanges();
-            return new Product
-            {
-                Id = product.Id,
-                ProductName = productEntity.ProductName,
-                ProductPrice = productEntity.ProductPrice,
-                ProductDescription = productEntity.ProductDescription,
-                ProductImageUrl = productEntity.ProductImageUrl
-            };
+            return product;
         }
 
         public Product DeleteById(int id)
@@ -99,7 +111,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = savedEntity.ProductName,
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
-                ProductImageUrl = savedEntity.ProductImageUrl
+                ProductImageUrl = savedEntity.ProductImageUrl,
+                ProductFeatured = savedEntity.ProductFeatured,
             };
         }
     }

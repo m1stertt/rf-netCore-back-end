@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace ScrumMasters.Webshop.Core.Models
 {
     public class Product
@@ -11,6 +13,10 @@ namespace ScrumMasters.Webshop.Core.Models
         public string ProductDescription { get; set; }
         
         public string ProductImageUrl { get; set; }
-        
+        public bool ProductFeatured { get; set; }
+
+        public List<Category> Categories { get; set; }
+        public List<Color> Colors { get; set; }
+        public List<Size> Sizes { get; set; }
     }
 }
