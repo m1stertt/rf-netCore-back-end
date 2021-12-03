@@ -38,5 +38,10 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _categoryRepository.Create(category);
         }
+
+        public List<Product> GetProductsByCategoryId(int id)
+        {
+            return _categoryRepository.GetProductsByCategoryId(id);
+        }
     }
 }

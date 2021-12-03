@@ -147,14 +147,22 @@ namespace ScrumMasters.Webshop.WebAPI
                     new ProductEntity {ProductName = "P2"},
                     new ProductEntity {ProductName = "P3"});
                 mainContext.Categories.AddRange(
-                        new CategoryEntity {Name = "Bukser"},
-                        new CategoryEntity {Name = "Sko"},
-                        new CategoryEntity {Name = "Kjoler"});
+                    new CategoryEntity {Name = "Bukser"},
+                    new CategoryEntity {Name = "Sko"},
+                    new CategoryEntity {Name = "Kjoler"});
+                mainContext.SaveChanges();
+                mainContext.ProductCategories.AddRange(
+                    new ProductCategories{ProductId = 3,CategoryId = 1},
+                    new ProductCategories{ProductId = 2,CategoryId = 1},
+                    new ProductCategories{ProductId = 2,CategoryId = 2},
+                    new ProductCategories{ProductId = 1,CategoryId = 3}
+                );
                 mainContext.SaveChanges();
 
                 authDbContext.Database.EnsureDeleted();
                 authDbContext.Database.EnsureCreated();
                 AuthService.CreateHashAndSalt("123456", out var passwordHash, out var salt);
+                
                 authDbContext.LoginUsers.Add(new LoginUser
                 {
                      UserName = "ljuul",
