@@ -44,7 +44,6 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(products);
         }
 
-
         [HttpGet("{id:int}")]
         public ActionResult<Product> GetById(int id)
         {
