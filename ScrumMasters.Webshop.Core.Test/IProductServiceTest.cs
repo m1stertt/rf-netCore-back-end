@@ -16,14 +16,16 @@ namespace ScrumMasters.Webshop.Core.Test
                 }
         
                 [Fact]
-                public void GetProducts_WithNoParam_ReturnsListOfAllProducts()
+                public void GetProducts_WithParam_ReturnsListOfPagedProducts()
                 {
                     var mock = new Mock<IProductService>();
-                    var fakeList = new List<Product>();
-                    mock.Setup(s => s.GetProducts())
+                    var products = new List<Product>();
+                    var fakeList = new PagedList<Product>(products,5,1,2);
+                    var parameters = new ProductParameters();
+                    mock.Setup(s => s.GetProducts(parameters))
                         .Returns(fakeList);
                     var service = mock.Object;
-                    Assert.Equal(fakeList, service.GetProducts());
+                    Assert.Equal(fakeList, service.GetProducts(parameters));
                 }
     }
 }

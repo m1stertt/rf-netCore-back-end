@@ -15,17 +15,15 @@ namespace ScrumMasters.Webshop.Domain.Test
         {
             private readonly Mock<IProductRepository> _mock;
             private readonly ProductService _service;
-            private readonly List<Product> _expected;
+            private readonly PagedList<Product> _expected;
 
             public ProductServiceTest()
             {
                 _mock = new Mock<IProductRepository>();
                 _service = new ProductService(_mock.Object);
-                _expected = new List<Product>
-                {
-                    new Product {Id = 1, ProductName = "p1"},
-                    new Product {Id = 2, ProductName = "p2"}
-                };
+                var products = new List<Product>();
+                _expected = new PagedList<Product>(products,5,1,2);
+ 
             }
 
             [Fact]
@@ -56,16 +54,28 @@ namespace ScrumMasters.Webshop.Domain.Test
             [Fact]
             public void GetProducts_CallsProductRepositoriesFindAll_ExactlyOnce()
             {
-                _service.GetProducts();
-                _mock.Verify(r => r.FindAll(), Times.Once);
+                var productParameters = new ProductParameters
+                {
+                    PageSize = 5,
+                    PageNumber = 1
+                };
+
+                _service.GetProducts(productParameters);
+                _mock.Verify(r => r.GetProducts(productParameters), Times.Once);
             }
 
             [Fact]
             public void GetProducts_NoFilter_ReturnsListOfAllProducts()
             {
-                _mock.Setup(r => r.FindAll())
+                var productParameters = new ProductParameters
+                {
+                    PageSize = 5,
+                    PageNumber = 1
+                };
+                _mock.Setup(r => r.GetProducts(productParameters))
                     .Returns(_expected);
-                var actual = _service.GetProducts();
+
+                var actual = _service.GetProducts(productParameters);
                 Assert.Equal(_expected, actual);
             }
         }
