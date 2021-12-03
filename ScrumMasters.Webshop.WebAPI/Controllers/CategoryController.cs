@@ -37,7 +37,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             {
                 return BadRequest("An ID is required to find by id.");
             }
-            return Ok(_categoryService.GetProductsByCategoryId(id));
+            return Ok(_categoryService.GetCategoryById(id));
         }
         
         [Authorize(Policy = nameof(CanManageCategoriesHandler))]

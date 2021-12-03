@@ -33,25 +33,9 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 .Select(pe => new Category
                 {
                     Id = pe.Id,
-                    Name = pe.Name
+                    Name = pe.Name,
+                    Products = pe.Products.Select(px=>new Product{Id = px.Id,ProductName = px.ProductName}).ToList()
                 }).FirstOrDefault(category => category.Id == id);
-        }
-        
-        public List<Product> GetProductsByCategoryId(int id)
-        {
-            return context.ProductCategories
-                .Include(pc => pc.Category)
-                .Where(up => up.CategoryId == id)
-                .Select(up => up.Product)
-                .Select(pe => new Product
-                    {
-                        Id = pe.Id,
-                        ProductName = pe.ProductName,
-                        ProductPrice = pe.ProductPrice,
-                        ProductDescription = pe.ProductDescription,
-                        ProductImageUrl = pe.ProductImageUrl
-                    })
-                    .ToList();
         }
         
         public Category DeleteById(int id)

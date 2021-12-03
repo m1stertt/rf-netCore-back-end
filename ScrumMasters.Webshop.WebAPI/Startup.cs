@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -142,21 +143,17 @@ namespace ScrumMasters.Webshop.WebAPI
                 mainContext.Database.EnsureDeleted();
                 mainContext.Database.EnsureCreated();
                 mainContext.SaveChanges();
-                mainContext.Products.AddRange(
-                    new ProductEntity {ProductName = "P1"},
-                    new ProductEntity {ProductName = "P2"},
-                    new ProductEntity {ProductName = "P3"});
-                mainContext.Categories.AddRange(
-                    new CategoryEntity {Name = "Bukser"},
-                    new CategoryEntity {Name = "Sko"},
-                    new CategoryEntity {Name = "Kjoler"});
-                mainContext.SaveChanges();
-                mainContext.ProductCategories.AddRange(
-                    new ProductCategories{ProductId = 3,CategoryId = 1},
-                    new ProductCategories{ProductId = 2,CategoryId = 1},
-                    new ProductCategories{ProductId = 2,CategoryId = 2},
-                    new ProductCategories{ProductId = 1,CategoryId = 3}
-                );
+                ProductEntity pe1 = new ProductEntity {ProductName = "P1",Categories = new List<CategoryEntity>()};
+                ProductEntity pe2 = new ProductEntity {ProductName = "P2",Categories = new List<CategoryEntity>()};
+                ProductEntity pe3 = new ProductEntity {ProductName = "P3",Categories = new List<CategoryEntity>()};
+                CategoryEntity ce1 = new CategoryEntity {Name = "Bukser"};
+                CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
+                CategoryEntity ce3 = new CategoryEntity {Name = "Kjoler"};
+                pe1.Categories.Add(ce1);
+                pe1.Categories.Add(ce2);
+                pe2.Categories.Add(ce2);
+                pe3.Categories.Add(ce3);
+                mainContext.Products.AddRange(pe1,pe2,pe3);
                 mainContext.SaveChanges();
 
                 authDbContext.Database.EnsureDeleted();
@@ -192,7 +189,8 @@ namespace ScrumMasters.Webshop.WebAPI
                      Name = "CanManageUsers"
                  });
                  authDbContext.SaveChanges();
-                  authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 1, UserId = 1 });
+                 authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 1, UserId = 1 });
+                 authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 2, UserId = 1 });
                  authDbContext.UserPermissions.Add(new UserPermission { PermissionId = 2, UserId = 2 });
                  authDbContext.SaveChanges();
 
