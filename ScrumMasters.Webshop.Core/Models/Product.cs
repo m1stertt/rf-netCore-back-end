@@ -11,6 +11,7 @@ namespace ScrumMasters.Webshop.Core.Models
         public string ProductDescription { get; set; }
         
         public string ProductImageUrl { get; set; }
-        
+
+        public Category[] Categories { get; set; }
     }
 }

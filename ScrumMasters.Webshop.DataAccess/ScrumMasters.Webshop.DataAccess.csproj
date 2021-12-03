@@ -11,6 +11,7 @@
     <ItemGroup>
       <ProjectReference Include="..\ScrumMasters.Webshop.Core\ScrumMasters.Webshop.Core.csproj" />
       <ProjectReference Include="..\ScrumMasters.Webshop.Domain\ScrumMasters.Webshop.Domain.csproj" />
+      <ProjectReference Include="..\ScrumMasters.Webshop.Security\ScrumMasters.Webshop.Security.csproj" />
     </ItemGroup>
 
 </Project>

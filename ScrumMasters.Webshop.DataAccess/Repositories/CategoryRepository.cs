@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.DataAccess.Entities;
 using ScrumMasters.Webshop.Domain.IRepositories;
@@ -34,6 +35,23 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     Id = pe.Id,
                     Name = pe.Name
                 }).FirstOrDefault(category => category.Id == id);
+        }
+        
+        public List<Product> GetProductsByCategoryId(int id)
+        {
+            return context.ProductCategories
+                .Include(pc => pc.Category)
+                .Where(up => up.CategoryId == id)
+                .Select(up => up.Product)
+                .Select(pe => new Product
+                    {
+                        Id = pe.Id,
+                        ProductName = pe.ProductName,
+                        ProductPrice = pe.ProductPrice,
+                        ProductDescription = pe.ProductDescription,
+                        ProductImageUrl = pe.ProductImageUrl
+                    })
+                    .ToList();
         }
         
         public Category DeleteById(int id)
