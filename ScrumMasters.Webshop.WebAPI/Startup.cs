@@ -106,14 +106,16 @@ namespace ScrumMasters.Webshop.WebAPI
                     devPolicy
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .WithExposedHeaders("X-Pagination");
                 });
                 options.AddPolicy("Production-cors", prodPolicy =>
                 {
                     prodPolicy
                         .WithOrigins("https://ruds-fashion2021.azurewebsites.net/")
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .WithExposedHeaders("X-Pagination");
                 });
             });
         }
