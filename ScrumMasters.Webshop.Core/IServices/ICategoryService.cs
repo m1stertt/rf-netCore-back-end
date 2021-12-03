@@ -10,6 +10,5 @@ namespace ScrumMasters.Webshop.Core.IServices
         Category DeleteById(int id);
         Category Update(Category category);
         Category Create(Category category);
-        List<Product> GetProductsByCategoryId(int id);
     }
 }
