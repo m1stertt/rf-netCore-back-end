@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,27 +13,15 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanManageProductsHandler handler)
         {
             var defaultContext = context.Resource as DefaultHttpContext;
-            if (defaultContext != null)
+            if (defaultContext?.Items["LoginUser"] is LoginUser user)
             {
-                var user = defaultContext.Items["LoginUser"] as LoginUser;
-                if (user != null)
+                var authService = defaultContext.HttpContext.RequestServices.GetRequiredService<IAuthService>();
+                var permissions = authService.GetPermissions(user.Id);
+                Console.WriteLine(permissions.Exists(p => p.Name.Equals("CanManageProducts")));
+                if (permissions.Exists(p => p.Name.Equals("CanManageProducts")))
                 {
-                    var authService = defaultContext.HttpContext.RequestServices.GetRequiredService<IAuthService>();
-                    var permissions = authService.GetPermissions(user.Id);
-                    if (permissions.Exists(p => p.Name.Equals("CanManageProducts")))
-                    {
-                        context.Succeed(handler);
-                    }
-                    else
-                    {
-                        context.Fail();
-                    }
+                    context.Succeed(handler);
                 }
-            }
-            else
-            {
-                context.Fail();
-                
             }
 
             return Task.CompletedTask;

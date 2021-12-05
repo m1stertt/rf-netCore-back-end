@@ -25,13 +25,13 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
                     }
                     else
                     {
-                        context.Fail();
+                   //     context.Fail();
                     }
                 }
             }
             else
             {
-                context.Fail();
+          //      context.Fail();
                 
             }
 

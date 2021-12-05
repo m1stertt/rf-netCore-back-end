@@ -68,7 +68,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductPrice = product.ProductPrice,
                 ProductDescription = product.ProductDescription,
                 ProductImageUrl = product.ProductImageUrl,
-                ProductFeatured = product.ProductFeatured,
+                //ProductFeatured = product.ProductFeatured,
             };
             var savedEntity = _context.Products.Add(productEntity).Entity;
             _context.SaveChanges();
@@ -79,7 +79,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
                 ProductImageUrl = savedEntity.ProductImageUrl,
-                ProductFeatured = savedEntity.ProductFeatured,
+                //ProductFeatured = savedEntity.ProductFeatured,
             };
         }
 
