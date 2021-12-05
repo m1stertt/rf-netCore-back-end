@@ -17,11 +17,18 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
             {
                 var authService = defaultContext.HttpContext.RequestServices.GetRequiredService<IAuthService>();
                 var permissions = authService.GetPermissions(user.Id);
-                Console.WriteLine(permissions.Exists(p => p.Name.Equals("CanManageProducts")));
                 if (permissions.Exists(p => p.Name.Equals("CanManageProducts")))
                 {
                     context.Succeed(handler);
                 }
+                else
+                {
+                    context.Fail();
+                }
+            }
+            else
+            {
+                context.Fail();
             }
 
             return Task.CompletedTask;

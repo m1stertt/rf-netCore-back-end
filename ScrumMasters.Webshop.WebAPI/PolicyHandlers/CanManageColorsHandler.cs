@@ -7,10 +7,10 @@ using ScrumMasters.Webshop.Security.Model;
 
 namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
 {
-    public class CanManageColorsHandler : AuthorizationHandler<CanManageProductsHandler>, IAuthorizationRequirement
+    public class CanManageColorsHandler : AuthorizationHandler<CanManageColorsHandler>, IAuthorizationRequirement
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            CanManageProductsHandler handler)
+            CanManageColorsHandler handler)
         {
             var defaultContext = context.Resource as DefaultHttpContext;
             if (defaultContext != null)
@@ -26,13 +26,13 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
                     }
                     else
                     {
-       //                 context.Fail();
+                        context.Fail();
                     }
                 }
             }
             else
             {
-       //         context.Fail();
+                context.Fail();
 
             }
 

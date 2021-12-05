@@ -7,9 +7,9 @@ using ScrumMasters.Webshop.Security.Model;
 
 namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
 {
-    public class CanManageSizesHandler: AuthorizationHandler<CanManageProductsHandler>, IAuthorizationRequirement
+    public class CanManageSizesHandler: AuthorizationHandler<CanManageSizesHandler>, IAuthorizationRequirement
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanManageProductsHandler handler)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanManageSizesHandler handler)
         {
             var defaultContext = context.Resource as DefaultHttpContext;
             if (defaultContext != null)
@@ -25,13 +25,13 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
                     }
                     else
                     {
-           //             context.Fail();
+                        context.Fail();
                     }
                 }
             }
             else
             {
-        //        context.Fail();
+                context.Fail();
                 
             }
 
