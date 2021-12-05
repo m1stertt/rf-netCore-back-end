@@ -32,7 +32,6 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
             else
             {
                 context.Fail();
-                
             }
 
             return Task.CompletedTask;
