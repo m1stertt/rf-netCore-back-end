@@ -38,9 +38,21 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public PagedList<Product> GetProducts(ProductParameters productParameters)
         {
-            return PagedList<Product>.ToPagedList(FindAll().OrderBy(product => product.ProductName),
+            var pagedList = PagedList<Product>.ToPagedList(FindAll().OrderBy(product => product.ProductName),
                 productParameters.PageNumber,
-                productParameters.PageSize);
+                productParameters.PageSize,
+                productParameters.Search);
+            if (!string.IsNullOrEmpty(productParameters.Search))
+            {
+                pagedList = PagedList<Product>.ToPagedList(FindAll().OrderBy(product => product.ProductName),
+                    productParameters.PageNumber,
+                    productParameters.PageSize,
+                    productParameters.Search);
+                return pagedList;
+
+            }
+
+            return pagedList;
         }
 
         public Product FindById(int id)

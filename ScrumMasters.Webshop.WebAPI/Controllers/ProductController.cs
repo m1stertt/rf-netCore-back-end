@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
+using ScrumMasters.Webshop.DataAccess.Entities;
 using ScrumMasters.Webshop.WebAPI.PolicyHandlers;
 
 namespace ScrumMasters.Webshop.WebAPI.Controllers
@@ -30,7 +31,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         {
             var products = _productService.GetProducts(productParameters);
             
-            var metadata = new
+            var metadata = new 
             {
                 products.TotalCount,
                 products.PageSize,
