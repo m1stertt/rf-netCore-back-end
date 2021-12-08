@@ -30,7 +30,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             });
             if (string.IsNullOrEmpty(tokenString))
             {
-                return BadRequest("Please pass the valid Username and Password");
+                return BadRequest("Please use a valid Username and Password");
             }
 
             return Ok(new {Token = tokenString, Message = "Success"});
