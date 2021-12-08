@@ -21,5 +21,6 @@ namespace ScrumMasters.Webshop.DataAccess.Entities
         public List<CategoryEntity> Categories { get; set; }
         public List<ColorEntity> Colors { get; set; }
         public List<SizeEntity> Sizes { get; set; }
+        public List<ImageEntity> Images { get; set; }
     }
 }

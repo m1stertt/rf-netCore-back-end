@@ -1,13 +1,17 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -78,6 +82,8 @@ namespace ScrumMasters.Webshop.WebAPI
             services.AddScoped<IColorService, ColorService>();
             services.AddScoped<ISizeRepository, SizeRepository>();
             services.AddScoped<ISizeService, SizeService>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IAuthService, AuthService>();
             //
             services.AddAuthentication(option =>
@@ -156,9 +162,9 @@ namespace ScrumMasters.Webshop.WebAPI
                 mainContext.Database.EnsureDeleted();
                 mainContext.Database.EnsureCreated();
                 mainContext.SaveChanges();
-                ProductEntity pe1 = new ProductEntity {ProductName = "P1",ProductFeatured=true,Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>()};
-                ProductEntity pe2 = new ProductEntity {ProductName = "P2",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>()};
-                ProductEntity pe3 = new ProductEntity {ProductName = "P3",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>()};
+                ProductEntity pe1 = new ProductEntity {ProductName = "P1",ProductFeatured=true,Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
+                ProductEntity pe2 = new ProductEntity {ProductName = "P2",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
+                ProductEntity pe3 = new ProductEntity {ProductName = "P3",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
                 
                 CategoryEntity ce1 = new CategoryEntity {Name = "Bukser"};
                 CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
@@ -173,23 +179,35 @@ namespace ScrumMasters.Webshop.WebAPI
                 SizeEntity se1 = new SizeEntity { Title="30/30" };
                 SizeEntity se2 = new SizeEntity { Title="25" };
                 SizeEntity se3 = new SizeEntity { Title="30" };
+
+                ImageEntity ie1 = new ImageEntity {
+                    Title = "Some title",
+                    Tags = "Some, Tags, Hey, World",
+                    Path = "test2.jpg",
+                    Desc = "Some description",
+                };
                 
                 pe1.Categories.Add(ce1);
                 pe1.Categories.Add(ce2);
                 pe1.Colors.Add(color1);
                 pe1.Colors.Add(color5);
                 pe1.Sizes.Add(se1);
+                pe1.Images.Add(ie1);
 
                 pe2.Categories.Add(ce2);
                 pe2.Colors.Add(color2);
                 pe2.Colors.Add(color1);
                 pe2.Sizes.Add(se1);
                 pe2.Sizes.Add(se2);
+                pe2.Images.Add(ie1);
                 
                 pe3.Categories.Add(ce3);
                 pe3.Colors.Add(color3);
                 pe3.Colors.Add(color4);
                 pe3.Sizes.Add(se3);
+                pe3.Images.Add(ie1);
+                
+                
                 
                 mainContext.Products.AddRange(pe1,pe2,pe3);
                 mainContext.SaveChanges();
@@ -237,6 +255,13 @@ namespace ScrumMasters.Webshop.WebAPI
                 app.UseMiddleware<JWTMiddleware>();
             
                 app.UseHttpsRedirection();
+                
+                app.UseStaticFiles();
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                    RequestPath = new PathString("/Resources")
+                });
 
                 app.UseRouting();
 

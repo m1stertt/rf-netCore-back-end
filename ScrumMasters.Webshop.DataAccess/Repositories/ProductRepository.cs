@@ -32,6 +32,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
                     Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
                     Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
+                    Images = pe.Images.Select(px=>new Image{Id = px.Id,Title = px.Title,Path=px.Path}).ToList(),
                 })
                 .ToList();
         }
