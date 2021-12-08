@@ -1,4 +1,6 @@
-﻿namespace ScrumMasters.Webshop.Core.Models
+﻿using System.Collections.Generic;
+
+namespace ScrumMasters.Webshop.Core.Models
 {
     public class Image
     {
@@ -11,5 +13,7 @@
         public string Tags { get; set; }
 
         public string Path { get; set; }
+        
+        public List<Product> Products { get; set; }
     }
 }

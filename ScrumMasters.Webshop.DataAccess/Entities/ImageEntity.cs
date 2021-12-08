@@ -1,4 +1,6 @@
-﻿namespace ScrumMasters.Webshop.DataAccess.Entities
+﻿using System.Collections.Generic;
+
+namespace ScrumMasters.Webshop.DataAccess.Entities
 {
     public class ImageEntity
     {
@@ -11,5 +13,7 @@
         public string Tags { get; set; }
 
         public string Path { get; set; }
+        
+        public List<ProductEntity> Products { get; set; }
     }
 }
