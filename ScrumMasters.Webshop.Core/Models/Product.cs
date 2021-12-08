@@ -18,5 +18,7 @@ namespace ScrumMasters.Webshop.Core.Models
         public List<Category> Categories { get; set; }
         public List<Color> Colors { get; set; }
         public List<Size> Sizes { get; set; }
+
+        public List<Image> Images { get; set; }
     }
 }
