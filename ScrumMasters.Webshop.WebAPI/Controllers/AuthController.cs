@@ -23,6 +23,8 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         [HttpPost(nameof(Login))]
         public IActionResult Login([FromBody] LoginDto dto)
         {
+
+            var dtos = dto;
             var tokenString = _authService.GenerateJwtToken(new LoginUser
             {
                 Email = dto.Email,
@@ -46,7 +48,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 return Ok(new ProfileDto
                 {
                     Permissions = permissions.Select(p => p.Name).ToList(),
-                    Name = user.UserName
+                    Name = user.Email
                 });
             }
 
