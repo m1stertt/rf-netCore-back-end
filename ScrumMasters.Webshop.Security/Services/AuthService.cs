@@ -45,7 +45,7 @@ namespace ScrumMasters.Webshop.Security.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("Id", userFound.Id.ToString()),
-                    new Claim("UserName", userFound.UserName)
+                    new Claim("Email", userFound.Email)
                 }),
                 Expires = DateTime.UtcNow.AddDays(14),
                 Issuer = _configuration["Jwt:Issuer"],

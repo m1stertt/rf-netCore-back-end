@@ -51,7 +51,7 @@ namespace ScrumMasters.Webshop.WebAPI.Middleware
 
                 var jwtToken = (JwtSecurityToken) validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "Id").Value);
-                var userName = jwtToken.Claims.First(x => x.Type == "UserName").Value;
+                var userName = jwtToken.Claims.First(x => x.Type == "Email").Value;
 
                 // attach account to context on successful jwt validation
                 context.Items["LoginUser"] = new LoginUser {Id = userId, UserName = userName};

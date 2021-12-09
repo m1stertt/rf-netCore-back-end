@@ -25,8 +25,8 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         {
             var tokenString = _authService.GenerateJwtToken(new LoginUser
             {
-                UserName = dto.Username,
-                HashedPassword = _authService.VerifyLogin(dto.Username, dto.Password)
+                Email = dto.Email,
+                HashedPassword = _authService.VerifyLogin(dto.Email, dto.Password)
             });
             if (string.IsNullOrEmpty(tokenString))
             {
