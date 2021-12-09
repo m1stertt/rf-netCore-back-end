@@ -69,7 +69,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 return Ok();
             }
 
-            return StatusCode(403);
+            return StatusCode(403, "User already exists.");
 
         }
     }
