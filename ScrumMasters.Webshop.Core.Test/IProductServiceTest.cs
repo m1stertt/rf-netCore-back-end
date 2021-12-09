@@ -20,7 +20,7 @@ namespace ScrumMasters.Webshop.Core.Test
                 {
                     var mock = new Mock<IProductService>();
                     var products = new List<Product>();
-                    var fakeList = new PagedList<Product>(products,5,1,2);
+                    var fakeList = new PagedList<Product>(products,5,1,2,"kjoler");
                     var parameters = new ProductParameters();
                     mock.Setup(s => s.GetProducts(parameters))
                         .Returns(fakeList);
