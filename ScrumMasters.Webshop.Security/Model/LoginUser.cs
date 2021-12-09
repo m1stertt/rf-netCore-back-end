@@ -10,7 +10,6 @@ namespace ScrumMasters.Webshop.Security.Model
         public byte[] PasswordSalt { get; set; }
         
         public List<Permission> Permissions { get; set; }
-
         public int DbUserId { get; set; }
     }
 }
