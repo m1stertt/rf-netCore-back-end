@@ -25,12 +25,12 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         {
             var tokenString = _authService.GenerateJwtToken(new LoginUser
             {
-                UserName = dto.Username,
-                HashedPassword = _authService.VerifyLogin(dto.Username, dto.Password)
+                Email = dto.Email,
+                HashedPassword = _authService.VerifyLogin(dto.Email, dto.Password)
             });
             if (string.IsNullOrEmpty(tokenString))
             {
-                return StatusCode(401,"Please use a valid Username and Password");
+                return StatusCode(401, "Please use a valid Username and Password");
             }
 
             return Ok(new {Token = tokenString, Message = "Success"});
@@ -51,6 +51,19 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             }
 
             return Unauthorized();
+        }
+
+        [AllowAnonymous]
+        [HttpPost(nameof(Register))]
+        public IActionResult Register([FromBody] UserDetails userDetails)
+        {
+            if (userDetails == null)
+            {
+                return BadRequest("User details is required to register a new user.");
+            }
+            _authService.RegisterUser(userDetails);
+            return Ok();
+
         }
     }
 }

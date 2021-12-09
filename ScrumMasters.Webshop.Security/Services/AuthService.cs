@@ -22,8 +22,10 @@ namespace ScrumMasters.Webshop.Security.Services
             _ctx = ctx;
         }
 
-        private LoginUser IsValidUserInformation(LoginUser user) {
-            return _ctx.LoginUsers.FirstOrDefault(u => u.UserName.Equals(user.UserName) && u.HashedPassword.Equals(user.HashedPassword));
+        private LoginUser IsValidUserInformation(LoginUser user)
+        {
+            return _ctx.LoginUsers.FirstOrDefault(u =>
+                u.UserName.Equals(user.UserName) && u.HashedPassword.Equals(user.HashedPassword));
         }
 
         /// <summary>
@@ -35,20 +37,21 @@ namespace ScrumMasters.Webshop.Security.Services
         {
             var userFound = IsValidUserInformation(user);
             if (userFound == null) return null;
-           
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("Id", userFound.Id.ToString()), 
-                    new Claim("UserName", userFound.UserName)
+                    new Claim("Id", userFound.Id.ToString()),
+                    new Claim("Email", userFound.Email)
                 }),
                 Expires = DateTime.UtcNow.AddDays(14),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
@@ -57,11 +60,11 @@ namespace ScrumMasters.Webshop.Security.Services
         public byte[] VerifyLogin(string username, string password)
         {
             LoginUser user = _ctx.LoginUsers.FirstOrDefault(u => u.UserName.Equals(username));
-            if(user==null||!VerifyHash(password,user.HashedPassword,user.PasswordSalt)) return null;
+            if (user == null || !VerifyHash(password, user.HashedPassword, user.PasswordSalt)) return null;
             return user.HashedPassword;
         }
 
-        private bool VerifyHash(string password,byte[] storedHash,byte[] storedSalt)
+        private bool VerifyHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
@@ -74,8 +77,8 @@ namespace ScrumMasters.Webshop.Security.Services
 
             return true;
         }
-        
-        public static void CreateHashAndSalt(string password,out byte[] passwordHash,out byte[] salt)
+
+        public static void CreateHashAndSalt(string password, out byte[] passwordHash, out byte[] salt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
@@ -91,6 +94,18 @@ namespace ScrumMasters.Webshop.Security.Services
                 .Where(up => up.UserId == userId)
                 .Select(up => up.Permission)
                 .ToList();
+        }
+
+        public void RegisterUser(UserDetails userDetails)
+        {
+            CreateHashAndSalt(userDetails.Password, out var passwordHash, out var salt);
+            _ctx.LoginUsers.Add(new LoginUser()
+            {
+                Email = userDetails.Email,
+                HashedPassword = passwordHash,
+                PasswordSalt = salt,
+            });
+            _ctx.SaveChanges();
         }
     }
 }
