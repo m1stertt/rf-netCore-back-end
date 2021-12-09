@@ -22,10 +22,20 @@ namespace ScrumMasters.Webshop.Security.Services
             _ctx = ctx;
         }
 
+        public bool CheckIfUserExists(UserDetails userDetails)
+        {
+            if (_ctx.LoginUsers.Any(user => userDetails.Email.Equals(user.Email)))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private LoginUser IsValidUserInformation(LoginUser user)
         {
             return _ctx.LoginUsers.FirstOrDefault(u =>
-                u.UserName.Equals(user.UserName) && u.HashedPassword.Equals(user.HashedPassword));
+                u.Email.Equals(user.Email) && u.HashedPassword.Equals(user.HashedPassword));
         }
 
         /// <summary>
@@ -57,9 +67,9 @@ namespace ScrumMasters.Webshop.Security.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public byte[] VerifyLogin(string username, string password)
+        public byte[] VerifyLogin(string email, string password)
         {
-            LoginUser user = _ctx.LoginUsers.FirstOrDefault(u => u.UserName.Equals(username));
+            LoginUser user = _ctx.LoginUsers.FirstOrDefault(u => u.Email.Equals(email));
             if (user == null || !VerifyHash(password, user.HashedPassword, user.PasswordSalt)) return null;
             return user.HashedPassword;
         }
