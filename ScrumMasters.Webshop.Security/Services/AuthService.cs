@@ -22,6 +22,16 @@ namespace ScrumMasters.Webshop.Security.Services
             _ctx = ctx;
         }
 
+        public bool CheckIfUserExists(UserDetails userDetails)
+        {
+            if (_ctx.LoginUsers.Any(user => userDetails.Email.Equals(user.Email)))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private LoginUser IsValidUserInformation(LoginUser user)
         {
             return _ctx.LoginUsers.FirstOrDefault(u =>

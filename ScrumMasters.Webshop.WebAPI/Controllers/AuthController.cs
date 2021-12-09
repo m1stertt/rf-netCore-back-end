@@ -23,7 +23,6 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         [HttpPost(nameof(Login))]
         public IActionResult Login([FromBody] LoginDto dto)
         {
-
             var dtos = dto;
             var tokenString = _authService.GenerateJwtToken(new LoginUser
             {
@@ -63,8 +62,14 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             {
                 return BadRequest("User details is required to register a new user.");
             }
-            _authService.RegisterUser(userDetails);
-            return Ok();
+
+            if (!_authService.CheckIfUserExists(userDetails))
+            {
+                _authService.RegisterUser(userDetails);
+                return Ok();
+            }
+
+            return StatusCode(403);
 
         }
     }
