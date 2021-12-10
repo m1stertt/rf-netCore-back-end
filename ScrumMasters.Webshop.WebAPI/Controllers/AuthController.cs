@@ -55,15 +55,15 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost(nameof(Register))]
-        public IActionResult Register([FromBody] UserDetails userDetails)
+        [HttpPost(nameof(RegisterUser))]
+        public IActionResult RegisterUser([FromBody] UserDetails userDetails)
         {
             if (userDetails == null)
             {
                 return BadRequest("User details is required to register a new user.");
             }
 
-            if (!_authService.CheckIfUserExists(userDetails))
+            if (!_authService.UserExists(userDetails))
             {
                 _authService.RegisterUser(userDetails);
                 return Ok();
