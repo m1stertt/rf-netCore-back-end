@@ -102,6 +102,7 @@ namespace ScrumMasters.Webshop.WebAPI
                 };
             });
             services.AddSingleton<IAuthorizationHandler, AdminHandler>();
+            services.AddSingleton<IAuthorizationHandler, CanManageAccountHandler>();
             services.AddSingleton<IAuthorizationHandler, CanManageCategoriesHandler>();
             services.AddSingleton<IAuthorizationHandler, CanManageProductsHandler>();
             services.AddSingleton<IAuthorizationHandler, CanManageUsersHandler>();
@@ -121,6 +122,8 @@ namespace ScrumMasters.Webshop.WebAPI
                     policy => policy.Requirements.Add(new CanManageSizesHandler()));
                 options.AddPolicy(nameof(CanManageColorsHandler),
                     policy => policy.Requirements.Add(new CanManageColorsHandler()));
+                options.AddPolicy(nameof(CanManageAccountHandler),
+                    policy => policy.Requirements.Add(new CanManageAccountHandler()));
             });
             services.AddCors(options =>
             {
@@ -237,7 +240,7 @@ namespace ScrumMasters.Webshop.WebAPI
                 AuthService.CreateHashAndSalt("123456", out passwordHash, out salt);
                 authDbContext.LoginUsers.Add(new LoginUser
                 {
-                    Email = "ljuu2l@ljuul.dk",
+                    Email = "ljuul2@ljuul.dk",
                     HashedPassword = passwordHash,
                     PasswordSalt = salt,
                     DbUserId = 2,
@@ -253,12 +256,13 @@ namespace ScrumMasters.Webshop.WebAPI
                     Name = "CanManageCategories"
                 }, new Permission()
                 {
-                    Name = "CanManageUsers"
-                });
+                    Name = "CanManageAccount"
+                }, new Permission());
                 authDbContext.SaveChanges();
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 1, UserId = 1});
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 2});
+                authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
                 authDbContext.SaveChanges();
 
                 #endregion

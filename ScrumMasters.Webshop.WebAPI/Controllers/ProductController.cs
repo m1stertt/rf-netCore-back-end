@@ -69,7 +69,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_productService.Create(product));
         }
 
-        //[Authorize(Policy = nameof(CanManageProductsHandler))]
+        [Authorize(Policy = nameof(CanManageProductsHandler))]
         [HttpPut("{id}")]  
         public ActionResult<Product> Update(int id, [FromBody] Product product)
         {
