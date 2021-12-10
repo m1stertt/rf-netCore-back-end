@@ -47,7 +47,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 return Ok(new ProfileDto
                 {
                     Permissions = permissions.Select(p => p.Name).ToList(),
-                    Name = user.Email
+                    Email = user.Email
                 });
             }
 
