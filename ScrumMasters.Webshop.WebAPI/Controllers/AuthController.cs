@@ -58,6 +58,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         [HttpPost(nameof(RegisterUser))]
         public IActionResult RegisterUser([FromBody] UserDetails userDetails)
         {
+            
             if (userDetails == null)
             {
                 return BadRequest("User details is required to register a new user.");

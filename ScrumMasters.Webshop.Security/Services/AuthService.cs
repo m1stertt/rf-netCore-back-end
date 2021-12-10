@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -109,12 +110,14 @@ namespace ScrumMasters.Webshop.Security.Services
         public void RegisterUser(UserDetails userDetails)
         {
             CreateHashAndSalt(userDetails.Password, out var passwordHash, out var salt);
-            _ctx.LoginUsers.Add(new LoginUser()
+            var createdEntity = new LoginUser()
             {
                 Email = userDetails.Email,
                 HashedPassword = passwordHash,
                 PasswordSalt = salt,
-            });
+            };
+            var savedEntity = _ctx.LoginUsers.Add(createdEntity).Entity;
+            _ctx.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = savedEntity.Id, User = savedEntity});
             _ctx.SaveChanges();
         }
     }

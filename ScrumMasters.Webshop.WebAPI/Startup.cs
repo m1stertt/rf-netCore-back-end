@@ -263,7 +263,7 @@ namespace ScrumMasters.Webshop.WebAPI
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 2});
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
-                authDbContext.SaveChanges();
+    
 
                 #endregion
 
