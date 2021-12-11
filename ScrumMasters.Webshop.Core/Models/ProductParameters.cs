@@ -7,14 +7,13 @@
         private int _pageSize = 10;
         public int PageSize
         {
-            get
-            {
-                return _pageSize;
-            }
+            get => _pageSize;
             set
             {
                 _pageSize = (value > _maxPageSize) ? _maxPageSize : value;
             }
         }
+
+        public string SearchString { get; set; }
     }
 }

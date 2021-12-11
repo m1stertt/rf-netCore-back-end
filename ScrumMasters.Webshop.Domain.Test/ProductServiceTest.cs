@@ -22,7 +22,7 @@ namespace ScrumMasters.Webshop.Domain.Test
                 _mock = new Mock<IProductRepository>();
                 _service = new ProductService(_mock.Object);
                 var products = new List<Product>();
-                _expected = new PagedList<Product>(products,5,1,2);
+                _expected = new PagedList<Product>(products,5,1,2, "kjoler");
  
             }
 
