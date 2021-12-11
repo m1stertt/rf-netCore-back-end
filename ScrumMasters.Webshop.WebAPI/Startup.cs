@@ -162,9 +162,9 @@ namespace ScrumMasters.Webshop.WebAPI
                 mainContext.Database.EnsureDeleted();
                 mainContext.Database.EnsureCreated();
                 mainContext.SaveChanges();
-                ProductEntity pe1 = new ProductEntity {ProductName = "P1",ProductFeatured=true,Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
-                ProductEntity pe2 = new ProductEntity {ProductName = "P2",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
-                ProductEntity pe3 = new ProductEntity {ProductName = "P3",Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
+                ProductEntity pe1 = new ProductEntity {ProductName = "P1",ProductPrice=250,ProductFeatured=true,Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
+                ProductEntity pe2 = new ProductEntity {ProductName = "P2",ProductPrice=200,Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
+                ProductEntity pe3 = new ProductEntity {ProductName = "P3",ProductPrice=350,Categories = new List<CategoryEntity>(),Sizes=new List<SizeEntity>(),Colors = new List<ColorEntity>(),Images=new List<ImageEntity>()};
                 
                 CategoryEntity ce1 = new CategoryEntity {Name = "Bukser"};
                 CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
@@ -187,6 +187,13 @@ namespace ScrumMasters.Webshop.WebAPI
                     Desc = "Some description",
                 };
                 
+                ImageEntity ie2 = new ImageEntity {
+                    Title = "Some title34",
+                    Tags = "Some, Tags, Hey34, World",
+                    Path = "test1.jpg",
+                    Desc = "Some description34",
+                };
+                
                 pe1.Categories.Add(ce1);
                 pe1.Categories.Add(ce2);
                 pe1.Colors.Add(color1);
@@ -200,6 +207,7 @@ namespace ScrumMasters.Webshop.WebAPI
                 pe2.Sizes.Add(se1);
                 pe2.Sizes.Add(se2);
                 pe2.Images.Add(ie1);
+                pe2.Images.Add(ie2);
                 
                 pe3.Categories.Add(ce3);
                 pe3.Colors.Add(color3);
