@@ -14,14 +14,25 @@ namespace ScrumMasters.Webshop.Domain.Service
             _UserRepository = UserRepository ?? throw new InvalidDataException("UserRepository Cannot Be Null");
         }
 
+
+        public bool CheckUserByEmail(string email)
+        {
+            return _UserRepository.CheckByEmail(email);
+        }
+
+        public User GetUserById(int id)
+        {
+            return _UserRepository.GetUserById(id);
+        }
+
         public User Create(User User)
         {
             return _UserRepository.Create(User);
         }
 
-        public User GetUserById(int id)
+        public bool GetUserById(string id)
         {
-            return _UserRepository.FindById(id);
+            return _UserRepository.CheckByEmail(id);
         }
 
         public User Update(User User)

@@ -46,6 +46,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 List<Permission> permissions = _authService.GetPermissions(user.Id);
                 return Ok(new ProfileDto
                 {
+                    Id = user.Id,
                     Permissions = permissions.Select(p => p.Name).ToList(),
                     Email = user.Email
                 });

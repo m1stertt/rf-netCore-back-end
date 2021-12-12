@@ -6,7 +6,7 @@ using ScrumMasters.Webshop.Domain.IRepositories;
 
 namespace ScrumMasters.Webshop.DataAccess.Repositories
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly MainDbContext _context;
 
@@ -14,10 +14,12 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
         {
             _context = ctx ?? throw new InvalidDataException("User Repository Must have a DBContext");
         }
+
         public User Create(User user)
         {
             var ue = new UserEntity()
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
@@ -41,26 +43,36 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             };
         }
 
-        public User FindById(int id)
+        public bool CheckByEmail(string id)
         {
-            return _context.Users.Select(ue => new User()
+            if (_context.Users.Any(user => id.Equals(user.Email)))
             {
-                Id = ue.Id,
-                FirstName = ue.FirstName,
-                LastName = ue.LastName,
-                Email = ue.Email,
-                StreetAndNumber = ue.StreetAndNumber,
-                PostalCode = ue.PostalCode,
-                City = ue.City,
-                PhoneNumber = ue.PhoneNumber
-                
-            }).FirstOrDefault(user => user.Id == id);
+                return true;
+            }
+
+            return false;
+        }
+
+        public User GetUserById(int id)
+        {
+            return _context.Users.Select(pe => new User()
+            {
+                Id = pe.Id,
+                FirstName = pe.FirstName,
+                LastName = pe.LastName,
+                Email = pe.Email,
+                StreetAndNumber = pe.StreetAndNumber,
+                PostalCode = pe.PostalCode,
+                City = pe.City,
+                PhoneNumber = pe.PhoneNumber
+            }).FirstOrDefault(product => product.Id == id);
         }
 
         public User Update(User user)
         {
             var ue = _context.Update(new UserEntity()
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,

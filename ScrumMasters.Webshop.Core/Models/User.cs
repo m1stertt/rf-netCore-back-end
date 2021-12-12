@@ -1,14 +1,18 @@
-﻿namespace ScrumMasters.Webshop.Core.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ScrumMasters.Webshop.Core.Models
 {
     public class User
     {
+
         public int Id { get; set; }
-        public object FirstName { get; set; }
-        public object LastName { get; set; }
-        public object Email { get; set; }
-        public object PostalCode { get; set; }
-        public object StreetAndNumber { get; set; }
-        public object City { get; set; }
-        public object PhoneNumber { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PostalCode { get; set; }
+        public string StreetAndNumber { get; set; }
+        public string City { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

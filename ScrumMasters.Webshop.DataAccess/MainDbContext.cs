@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.DataAccess.Entities;
 
 namespace ScrumMasters.Webshop.DataAccess
@@ -7,10 +8,14 @@ namespace ScrumMasters.Webshop.DataAccess
     {
         public MainDbContext(DbContextOptions<MainDbContext> options): base(options)
         {
+            
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // modelBuilder.Entity<UserEntity>()
+            //     .Property(u => u.Id)
+            //     .ValueGeneratedNever();
         }
 
         public virtual DbSet<ProductEntity> Products { get; set; }

@@ -19,49 +19,58 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             _userService = userService ?? throw new InvalidDataException("UserService Cannot Be Null.");
         }
         
-
         [HttpGet("{id:int}")]
         public ActionResult<User> GetById(int id)
         {
             if (id == 0)
             {
-                return BadRequest("An ID is required to find a User by it's ID in the repository.");
+                return BadRequest("An ID is required to find a user by it's ID in the repository.");
             }
 
-            return Ok(_userService.GetUserById(id));
+            if (_userService.GetUserById(id) != null)
+            {
+                return Ok(_userService.GetUserById(id));
+            }
+
+            return StatusCode(404, "User not found.");
         }
 
         [Authorize(Policy = nameof(CanManageAccountHandler))]
         [HttpPost]  
-        public ActionResult<User> Post([FromBody] User User)
+        public ActionResult<User> Post([FromBody] User newUser)
         {
-            if (User == null)
+            if (newUser == null)
             {
-                return BadRequest("A User is required before creating a User in the repository.");
+                return BadRequest("A user is required before creating a user in the repository.");
             }
-                
-            return Ok(_userService.Create(User));
+
+            if (!_userService.CheckUserByEmail(newUser.Email))
+            {
+                return Ok(_userService.Create(newUser));
+            }
+
+            return StatusCode(403, "User already exist.");
         }
 
         [Authorize(Policy = nameof(CanManageAccountHandler))]
         [HttpPut("{id}")]  
-        public ActionResult<User> Update(int id, [FromBody] User User)
+        public ActionResult<User> Update(int id, [FromBody] User newUser)
         {
-            if (id < 1 || id != User.Id)
+            if (id < 1 || id != newUser.Id)
             {
-                return BadRequest("Correct id is needed to update a User in the repository.");
+                return BadRequest("Correct id is needed to update a user in the repository.");
             }
 
-            return Ok(_userService.Update(User));
+            return Ok(_userService.Update(newUser));
         }
 
-        [Authorize(Policy = nameof(CanManageUsersHandler))]
+        [Authorize(Policy = nameof(CanManageAccountHandler))]
         [HttpDelete("{id:int}")]
         public ActionResult<User> DeleteById(int id)
         {
             if (id == 0)
             {
-                return BadRequest("An ID is required to delete by id.");
+                return BadRequest("An ID is required to delete user by id.");
             }
             return Ok(_userService.DeleteById(id));
         }
