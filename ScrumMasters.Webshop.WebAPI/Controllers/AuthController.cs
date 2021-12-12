@@ -46,8 +46,9 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 List<Permission> permissions = _authService.GetPermissions(user.Id);
                 return Ok(new ProfileDto
                 {
+                    Id = user.Id,
                     Permissions = permissions.Select(p => p.Name).ToList(),
-                    Name = user.Email
+                    Email = user.Email
                 });
             }
 
@@ -58,6 +59,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         [HttpPost(nameof(RegisterUser))]
         public IActionResult RegisterUser([FromBody] UserDetails userDetails)
         {
+            
             if (userDetails == null)
             {
                 return BadRequest("User details is required to register a new user.");

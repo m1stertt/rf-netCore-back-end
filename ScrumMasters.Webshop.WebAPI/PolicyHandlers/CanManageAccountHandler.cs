@@ -7,9 +7,9 @@ using ScrumMasters.Webshop.Security.Model;
 
 namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
 {
-    public class CanManageAccountHandler: AuthorizationHandler<AdminHandler>, IAuthorizationRequirement
+    public class CanManageAccountHandler: AuthorizationHandler<CanManageAccountHandler>, IAuthorizationRequirement
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminHandler handler)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanManageAccountHandler handler)
         {
             var defaultContext = context.Resource as DefaultHttpContext;
             if (defaultContext != null)
@@ -19,7 +19,7 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
                 {
                     var authService = defaultContext.HttpContext.RequestServices.GetRequiredService<IAuthService>();
                     var permissions = authService.GetPermissions(user.Id);
-                    if (permissions.Exists(p => p.Name.Equals("User")))
+                    if (permissions.Exists(p => p.Name.Equals("CanManageAccount")))
                     {
                         context.Succeed(handler);
                     }

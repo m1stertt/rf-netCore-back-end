@@ -81,6 +81,8 @@ namespace ScrumMasters.Webshop.WebAPI
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             //
             services.AddAuthentication(option =>
             {
@@ -271,7 +273,7 @@ namespace ScrumMasters.Webshop.WebAPI
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 2});
                 authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
-                authDbContext.SaveChanges();
+    
 
                 #endregion
 
