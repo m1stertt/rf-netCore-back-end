@@ -186,11 +186,11 @@ namespace ScrumMasters.Webshop.WebAPI
                 CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
                 CategoryEntity ce3 = new CategoryEntity {Name = "Kjoler"};
 
-                ColorEntity color1 = new ColorEntity {Title = "Rød"};
-                ColorEntity color2 = new ColorEntity {Title = "Blå"};
-                ColorEntity color3 = new ColorEntity {Title = "Gul"};
-                ColorEntity color4 = new ColorEntity {Title = "Grøn"};
-                ColorEntity color5 = new ColorEntity {Title = "Grå"};
+                ColorEntity color1 = new ColorEntity {Title = "Rød",colorString="red"};
+                ColorEntity color2 = new ColorEntity {Title = "Blå",colorString="blue"};
+                ColorEntity color3 = new ColorEntity {Title = "Gul",colorString="yellow"};
+                ColorEntity color4 = new ColorEntity {Title = "Grøn",colorString="green"};
+                ColorEntity color5 = new ColorEntity {Title = "Grå",colorString="grey"};
 
                 SizeEntity se1 = new SizeEntity {Title = "30/30"};
                 SizeEntity se2 = new SizeEntity {Title = "25"};
@@ -211,26 +211,42 @@ namespace ScrumMasters.Webshop.WebAPI
                     Desc = "Some description34",
                 };
                 
+                ImageEntity ie3 = new ImageEntity
+                {
+                    Title = "Some title",
+                    Tags = "Some, Tags, Hey, World",
+                    Path = "billed1.jpg",
+                    Desc = "Some description",
+                };
+                
+                ImageEntity ie4 = new ImageEntity
+                {
+                    Title = "Some title",
+                    Tags = "Some, Tags, Hey, World",
+                    Path = "billed2.jpg",
+                    Desc = "Some description",
+                };
+                
                 pe1.Categories.Add(ce1);
                 pe1.Categories.Add(ce2);
                 pe1.Colors.Add(color1);
                 pe1.Colors.Add(color5);
                 pe1.Sizes.Add(se1);
                 pe1.Images.Add(ie1);
+                pe1.Images.Add(ie4);
 
                 pe2.Categories.Add(ce2);
                 pe2.Colors.Add(color2);
                 pe2.Colors.Add(color1);
                 pe2.Sizes.Add(se1);
                 pe2.Sizes.Add(se2);
-                pe2.Images.Add(ie1);
                 pe2.Images.Add(ie2);
                 
                 pe3.Categories.Add(ce3);
                 pe3.Colors.Add(color3);
                 pe3.Colors.Add(color4);
                 pe3.Sizes.Add(se3);
-                pe3.Images.Add(ie1);
+                pe3.Images.Add(ie3);
 
 
                 mainContext.Products.AddRange(pe1, pe2, pe3);

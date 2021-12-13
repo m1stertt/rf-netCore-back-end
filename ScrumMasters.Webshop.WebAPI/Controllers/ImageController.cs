@@ -24,12 +24,6 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             _imageService = imageService ?? throw new InvalidDataException("ImageService Cannot Be Null.");
         }
 
-        [HttpGet]
-        public ActionResult<List<Image>> GetAll()
-        {
-            return Ok(_imageService.GetAll());
-        }
-
         [HttpGet("{id:int}")]
         public ActionResult<Image> GetById(int id)
         {
@@ -41,9 +35,9 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_imageService.GetById(id));
         }
 
-        [Authorize(Policy = nameof(CanManageProductsHandler))]
+        //[Authorize(Policy = nameof(CanManageProductsHandler))]
         [HttpPost, DisableRequestSizeLimit]  
-        public async Task<IActionResult> Post([FromBody] Image image)
+        public async Task<IActionResult> Post([FromForm] Image image)
         {
             try
             {
@@ -52,31 +46,25 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 //var file = Request.Form.Files[0];
                 var folderName = Path.Combine("Resources", "Images");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                if (file.Length > 0)
+                if (file.Length <= 0) return BadRequest();
+                var name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                if (name == null) return BadRequest();
+                var ext = Path.GetExtension(name.Trim('"'));
+                var fileName = $@"{Guid.NewGuid()}" +ext;
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+                //@todo sql part
+                await using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
-                    var name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
-                    if (name != null)
-                    {
-                        var fileName = name.Trim('"');
-                        var fullPath = Path.Combine(pathToSave, fileName);
-                        var dbPath = Path.Combine(folderName, fileName);
-                        await using (var stream = new FileStream(fullPath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-                        return Ok(new { dbPath });
-                    }
+                    await file.CopyToAsync(stream);
                 }
-                else
-                {
-                    return BadRequest();
-                }
+                return Ok(new { dbPath });
+
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex}");
             }
-            return BadRequest();
         }
 
         [Authorize(Policy = nameof(CanManageProductsHandler))]

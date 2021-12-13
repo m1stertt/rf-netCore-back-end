@@ -14,11 +14,6 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             _imageRepository = imageRepository ?? throw new InvalidDataException("ImageRepository Cannot Be Null");
         }
-        
-        public List<Image> GetAll()
-        {
-            return _imageRepository.GetAll();
-        }
 
         public Image GetById(int id)
         {

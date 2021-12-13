@@ -71,7 +71,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductFeatured = pe.ProductFeatured,
                 Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
                 Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
-                Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
+                Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title,ColorString = px.colorString}).ToList(),
                 Images = pe.Images.Select(px=>new Image{Id = px.Id,Title = px.Title,Path=px.Path}).ToList(),
             }).FirstOrDefault(product => product.Id == id);
         }
@@ -131,6 +131,23 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductImageUrl = savedEntity.ProductImageUrl,
                 ProductFeatured = savedEntity.ProductFeatured,
             };
+        }
+
+        public List<Product> GetFeaturedProducts()
+        {
+            return _context.Products.Select(pe => new Product()
+            {
+                Id = pe.Id,
+                ProductName = pe.ProductName,
+                ProductPrice = pe.ProductPrice,
+                ProductDescription = pe.ProductDescription,
+                ProductImageUrl = pe.ProductImageUrl,
+                ProductFeatured = pe.ProductFeatured,
+                Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
+                Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
+                Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
+                Images = pe.Images.Select(px=>new Image{Id = px.Id,Title = px.Title,Path=px.Path}).ToList(),
+            }).Where(product => product.ProductFeatured == true).ToList();
         }
     }
 }

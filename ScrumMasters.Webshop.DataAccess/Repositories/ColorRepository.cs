@@ -22,7 +22,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 {
                     Id = pe.Id,
                     Title=pe.Title,
-                    Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList()
+                    Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList(),
+                    ColorString = pe.colorString
                 })
                 .ToList();
         }
@@ -33,7 +34,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = pe.Id,
                 Title=pe.Title,
-                Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList()
+                Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList(),
+                ColorString = pe.colorString
             }).FirstOrDefault(color => color.Id == id);
         }
 

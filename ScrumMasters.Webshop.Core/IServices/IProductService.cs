@@ -10,6 +10,6 @@ namespace ScrumMasters.Webshop.Core.IServices
         Product Create(Product product);
        Product Update(Product product);
        Product DeleteById(int id);
-
+       List<Product> GetFeaturedProducts();
     }
 }
