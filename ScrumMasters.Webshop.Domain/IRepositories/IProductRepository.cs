@@ -12,5 +12,6 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
         Product Create(Product product);
         Product Update(Product product);
         Product DeleteById(int id);
+        List<Product> GetFeaturedProducts();
     }
 }

@@ -14,6 +14,6 @@ namespace ScrumMasters.Webshop.DataAccess.Entities
 
         public string Path { get; set; }
         
-        public List<ProductEntity> Products { get; set; }
+        public ProductEntity Product { get; set; }
     }
 }

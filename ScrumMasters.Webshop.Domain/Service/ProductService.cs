@@ -38,5 +38,10 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return  _productRepository.DeleteById(id);
         }
+
+        public List<Product> GetFeaturedProducts()
+        {
+            return _productRepository.GetFeaturedProducts();
+        }
     }
     }

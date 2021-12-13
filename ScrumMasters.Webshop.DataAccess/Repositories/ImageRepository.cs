@@ -6,10 +6,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 {
     public class ImageRepository : IImageRepository
     {
-        public List<Image> GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public Image GetById(int id)
         {

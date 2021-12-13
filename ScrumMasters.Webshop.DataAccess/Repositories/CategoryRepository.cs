@@ -22,7 +22,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 .Select(pe => new Category
                 {
                     Id = pe.Id,
-                    Name = pe.Name
+                    Name = pe.Name,
+                    Products = pe.Products.Select(px=>new Product{Id = px.Id,ProductName = px.ProductName}).ToList()
                 })
                 .ToList();
         }

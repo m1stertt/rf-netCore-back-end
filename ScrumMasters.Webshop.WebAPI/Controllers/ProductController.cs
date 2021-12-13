@@ -56,6 +56,12 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
 
             return Ok(_productService.GetProductById(id));
         }
+        
+        [HttpGet("/api/Product/Featured")] //@todo
+        public ActionResult<Product> GetFeatured()
+        {
+            return Ok(_productService.GetFeaturedProducts());
+        }
 
         [Authorize(Policy = nameof(CanManageProductsHandler))]
         [HttpPost]  

@@ -14,6 +14,6 @@ namespace ScrumMasters.Webshop.Core.Models
 
         public string Path { get; set; }
         
-        public List<Product> Products { get; set; }
+        public Product Product { get; set; }
     }
 }
