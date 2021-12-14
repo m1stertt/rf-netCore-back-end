@@ -51,7 +51,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_colorService.Create(color));
         }
         
-        //[Authorize(Policy = nameof(CanManageColorsHandler))]
+        [Authorize(Policy = nameof(CanManageColorsHandler))]
         [HttpPut("{id}")]  
         public ActionResult<Color> Update(int id, [FromBody] Color color)
         {
