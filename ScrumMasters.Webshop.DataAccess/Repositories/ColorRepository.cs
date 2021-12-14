@@ -61,7 +61,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = color.Id,
                 Title = color.Title,
-                colorString = color.ColorString
+                ColorString = color.ColorString
                 
             }).Entity;
             _context.SaveChanges();
@@ -69,7 +69,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = pe.Id,
                 Title = pe.Title,
-                ColorString = pe.colorString
+                ColorString = pe.ColorString
             };
         }
 

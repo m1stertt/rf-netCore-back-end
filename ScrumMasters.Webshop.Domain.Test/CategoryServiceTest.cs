@@ -27,13 +27,13 @@ namespace ScrumMasters.Webshop.Domain.Test
         }
 
         [Fact]
-        public void Categorieservice_IsICategorieservice()
+        public void CategoriesService_IsICategorieservice()
         {
             Assert.True(_service is ICategoryService);
         }
 
         [Fact]
-        public void Categorieservice_WithNullCategoryRepository_ThrowsInvalidDataException()
+        public void CategoriesService_WithNullCategoryRepository_ThrowsInvalidDataException()
         {
             Assert.Throws<InvalidDataException>(
                 () => new CategoryService(null)
@@ -41,7 +41,7 @@ namespace ScrumMasters.Webshop.Domain.Test
         }
 
         [Fact]
-        public void Categorieservice_WithNullCategoryRepository_ThrowsExceptionWithMessage()
+        public void CategoriesService_WithNullCategoryRepository_ThrowsExceptionWithMessage()
         {
             var exception = Assert.Throws<InvalidDataException>(
                 () => new CategoryService(null)

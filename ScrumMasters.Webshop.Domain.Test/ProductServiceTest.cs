@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Moq;
-using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.Domain.IRepositories;
 using ScrumMasters.Webshop.Domain.Service;
@@ -65,7 +64,7 @@ namespace ScrumMasters.Webshop.Domain.Test
             }
 
             [Fact]
-            public void GetProducts_NoFilter_ReturnsListOfAllProducts()
+            public void GetProducts_PagedFilter_ReturnsListOfAllProducts()
             {
                 var productParameters = new ProductParameters
                 {
