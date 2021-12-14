@@ -25,5 +25,6 @@ namespace ScrumMasters.Webshop.DataAccess
         public virtual DbSet<ImageEntity> Images { get; set; }
         public virtual DbSet<UserEntity>  Users{ get; set; }
         public virtual DbSet<InventoryStockEntity> InventoryStock { get; set; }
+        public virtual DbSet<OrderEntity> OrderEntity { get; set; }
     }
 }

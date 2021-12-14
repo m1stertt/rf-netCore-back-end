@@ -7,5 +7,7 @@
         public ProductEntity Product { get; set; }
         public ColorEntity Color { get; set; }
         public SizeEntity Size { get; set; }
+        
+        
     }
 }

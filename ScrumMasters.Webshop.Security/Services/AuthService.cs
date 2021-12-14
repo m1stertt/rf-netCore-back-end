@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -14,29 +15,24 @@ namespace ScrumMasters.Webshop.Security.Services
 {
     public class AuthService : IAuthService
     {
+        private readonly IAuthRepository _authRepository;
+        
         private readonly IConfiguration _configuration;
-        private readonly AuthDbContext _ctx;
 
-        public AuthService(IConfiguration configuration, AuthDbContext ctx)
+        public AuthService(IConfiguration configuration, IAuthRepository authRepository)
         {
+            _authRepository = authRepository ?? throw new InvalidDataException("ProductRepository Cannot Be Null");
             _configuration = configuration;
-            _ctx = ctx;
         }
 
         public bool UserExists(UserDetails userDetails)
         {
-            if (_ctx.LoginUsers.Any(user => userDetails.Email.Equals(user.Email)))
-            {
-                return true;
-            }
-
-            return false;
+            return _authRepository.UserExists(userDetails);
         }
 
         private LoginUser IsValidUserInformation(LoginUser user)
         {
-            return _ctx.LoginUsers.FirstOrDefault(u =>
-                u.Email.Equals(user.Email) && u.HashedPassword.Equals(user.HashedPassword));
+            return _authRepository.IsValidUserInformation(user);
         }
 
         /// <summary>
@@ -70,7 +66,7 @@ namespace ScrumMasters.Webshop.Security.Services
 
         public byte[] VerifyLogin(string email, string password)
         {
-            LoginUser user = _ctx.LoginUsers.FirstOrDefault(u => u.Email.Equals(email));
+            LoginUser user = _authRepository.VerifyLoginUser(email);
             if (user == null || !VerifyHash(password, user.HashedPassword, user.PasswordSalt)) return null;
             return user.HashedPassword;
         }
@@ -100,14 +96,10 @@ namespace ScrumMasters.Webshop.Security.Services
 
         public List<Permission> GetPermissions(int userId)
         {
-            return _ctx.UserPermissions
-                .Include(up => up.Permission)
-                .Where(up => up.UserId == userId)
-                .Select(up => up.Permission)
-                .ToList();
+            return _authRepository.GetPermissions(userId);
         }
 
-        public void RegisterUser(UserDetails userDetails)
+        public LoginUser RegisterUser(UserDetails userDetails)
         {
             CreateHashAndSalt(userDetails.Password, out var passwordHash, out var salt);
             var createdEntity = new LoginUser()
@@ -116,9 +108,9 @@ namespace ScrumMasters.Webshop.Security.Services
                 HashedPassword = passwordHash,
                 PasswordSalt = salt,
             };
-            var savedEntity = _ctx.LoginUsers.Add(createdEntity).Entity;
-            _ctx.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = savedEntity.Id, User = savedEntity});
-            _ctx.SaveChanges();
+            _authRepository.SaveUser(createdEntity);
+            return createdEntity;
+
         }
     }
 }

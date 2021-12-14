@@ -8,6 +8,6 @@ namespace ScrumMasters.Webshop.DataAccess.Entities
         
         public string Name { get; set; }
         
-        public List<ProductEntity> Products { get; set; }
+        public List<ProductEntity> Product { get; set; }
     }
 }
