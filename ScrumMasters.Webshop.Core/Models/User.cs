@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScrumMasters.Webshop.Core.Models
@@ -10,9 +11,10 @@ namespace ScrumMasters.Webshop.Core.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string PostalCode { get; set; }
         public string StreetAndNumber { get; set; }
+        public string PostalCode { get; set; }
         public string City { get; set; }
         public string PhoneNumber { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

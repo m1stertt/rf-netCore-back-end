@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -68,7 +69,7 @@ namespace ScrumMasters.Webshop.WebAPI
                     }
                 });
             });
-            services.AddDbContext<MainDbContext>(opt => { opt.UseSqlite("Data Source=main.db"); });
+            services.AddDbContext<MainDbContext>(opt => { opt.UseSqlite("Data Source=main.db").LogTo(Console.WriteLine); });
             services.AddDbContext<AuthDbContext>(opt => { opt.UseSqlite("Data Source=auth.db"); });
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
@@ -186,11 +187,11 @@ namespace ScrumMasters.Webshop.WebAPI
                 CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
                 CategoryEntity ce3 = new CategoryEntity {Name = "Kjoler"};
 
-                ColorEntity color1 = new ColorEntity {Title = "Rød",colorString="red"};
-                ColorEntity color2 = new ColorEntity {Title = "Blå",colorString="blue"};
-                ColorEntity color3 = new ColorEntity {Title = "Gul",colorString="yellow"};
-                ColorEntity color4 = new ColorEntity {Title = "Grøn",colorString="green"};
-                ColorEntity color5 = new ColorEntity {Title = "Grå",colorString="grey"};
+                ColorEntity color1 = new ColorEntity {Title = "Rød",ColorString= "red"};
+                ColorEntity color2 = new ColorEntity {Title = "Blå",ColorString="blue"};
+                ColorEntity color3 = new ColorEntity {Title = "Gul",ColorString="yellow"};
+                ColorEntity color4 = new ColorEntity {Title = "Grøn",ColorString="green"};
+                ColorEntity color5 = new ColorEntity {Title = "Grå",ColorString="grey"};
 
                 SizeEntity se1 = new SizeEntity {Title = "30/30"};
                 SizeEntity se2 = new SizeEntity {Title = "25"};
