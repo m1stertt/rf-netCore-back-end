@@ -5,16 +5,12 @@ namespace ScrumMasters.Webshop.Security
 {
     public interface IAuthRepository
     {
-        string GenerateJwtToken(LoginUser userUserName);
-        public byte[] VerifyLogin(string email, string password);
-
+        public LoginUser IsValidUserInformation(LoginUser user);
+        public LoginUser VerifyLoginUser(string email);
         public bool UserExists(UserDetails userDetails);
-        public static void CreateHashAndSalt(string password, out byte[] passwordHash, out byte[] salt)
-        {
-            throw new System.NotImplementedException(); //@todo Maybe fix this, just quick fix for now to easily call this method during initialization of database.
-        }
+        public LoginUser SaveUser(LoginUser userEntity);
 
         List<Permission> GetPermissions(int userId);
-        void RegisterUser(UserDetails userDetails);
+
     }
 }

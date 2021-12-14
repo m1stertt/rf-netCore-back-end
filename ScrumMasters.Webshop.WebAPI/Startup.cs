@@ -82,8 +82,10 @@ namespace ScrumMasters.Webshop.WebAPI
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            
             //
             services.AddAuthentication(option =>
             {

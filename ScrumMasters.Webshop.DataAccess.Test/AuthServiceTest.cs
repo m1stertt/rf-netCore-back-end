@@ -14,9 +14,22 @@ namespace TeScrumMasters.Webshop.DataAccess.Test
         private readonly IConfiguration _configuration;
         private readonly AuthDbContext _ctx;
         
+        private readonly Mock<IAuthRepository> _mock;
+
+        
         public AuthServiceTest()
         {
-            _service = new AuthService(_configuration, _ctx);
+            _mock = new Mock<IAuthRepository>();
+            _configuration = new ConfigurationManager();
+            _service = new AuthService(_configuration, _mock.Object);
+            
+            
+            // _service = new UserService(_mock.Object);
+            // _expected = new User
+            // {
+            //     Id = 1,
+            //     FirstName = "User1"
+            // };
         }
         
         [Fact]
@@ -48,16 +61,17 @@ namespace TeScrumMasters.Webshop.DataAccess.Test
         }
         
         [Fact]
-        public void UserRegistration_WithLoginUser_CallsOnce()
+        public void UserRegistration_WithLoginUser_IsNotNull()
         {
-            var mock = new Mock<IAuthService>().Object;
+
             var fakeUserDetails = new UserDetails
             {
                 Email = "test@test.dk",
                 Password = "password"
             };
-            mock.RegisterUser(fakeUserDetails);
-            _service.Verify(r => r.RegisterUser(fakeUserDetails), Times.Once);
+            var fakeUser = _service.RegisterUser(fakeUserDetails);
+            Assert.NotNull(fakeUser);
+
         }
     }
 }
