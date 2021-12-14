@@ -60,13 +60,16 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             var pe = _context.Update(new ColorEntity
             {
                 Id = color.Id,
-                Title = color.Title
+                Title = color.Title,
+                colorString = color.ColorString
+                
             }).Entity;
             _context.SaveChanges();
             return new Color
             {
                 Id = pe.Id,
-                Title = pe.Title
+                Title = pe.Title,
+                ColorString = pe.colorString
             };
         }
 
