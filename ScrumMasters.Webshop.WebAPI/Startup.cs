@@ -186,11 +186,11 @@ namespace ScrumMasters.Webshop.WebAPI
                 CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
                 CategoryEntity ce3 = new CategoryEntity {Name = "Kjoler"};
 
-                ColorEntity color1 = new ColorEntity {Title = "Rød",colorString="#FF0000"};
-                ColorEntity color2 = new ColorEntity {Title = "Blå",colorString="#0000FF"};
-                ColorEntity color3 = new ColorEntity {Title = "Gul",colorString="#FFFF00"};
-                ColorEntity color4 = new ColorEntity {Title = "Grøn",colorString="#00FF00"};
-                ColorEntity color5 = new ColorEntity {Title = "Grå",colorString="#808080"};
+                ColorEntity color1 = new ColorEntity {Title = "Rød",ColorString="#FF0000"};
+                ColorEntity color2 = new ColorEntity {Title = "Blå",ColorString="#0000FF"};
+                ColorEntity color3 = new ColorEntity {Title = "Gul",ColorString="#FFFF00"};
+                ColorEntity color4 = new ColorEntity {Title = "Grøn",ColorString="#00FF00"};
+                ColorEntity color5 = new ColorEntity {Title = "Grå",ColorString="#808080"};
 
                 SizeEntity se1 = new SizeEntity {Title = "30/30"};
                 SizeEntity se2 = new SizeEntity {Title = "25"};
