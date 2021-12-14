@@ -23,7 +23,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     Id = pe.Id,
                     Title=pe.Title,
                     Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList(),
-                    ColorString = pe.colorString
+                    ColorString = pe.ColorString
                 })
                 .ToList();
         }
@@ -35,7 +35,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 Id = pe.Id,
                 Title=pe.Title,
                 Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList(),
-                ColorString = pe.colorString
+                ColorString = pe.ColorString
             }).FirstOrDefault(color => color.Id == id);
         }
 
@@ -44,14 +44,16 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             var entity = new ColorEntity()
             {
                 Title=color.Title,
+                ColorString = color.ColorString
                 //Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList()
             };
             var savedEntity = _context.Colors.Add(entity).Entity;
             _context.SaveChanges();
             return new Color()
             {
-                Id = color.Id,
-                Title=color.Title,
+                Id = savedEntity.Id,
+                Title=savedEntity.Title,
+                ColorString = savedEntity.ColorString
             };
         }
 
@@ -61,7 +63,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = color.Id,
                 Title = color.Title,
-                colorString = color.ColorString
+                ColorString = color.ColorString
                 
             }).Entity;
             _context.SaveChanges();
@@ -69,7 +71,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = pe.Id,
                 Title = pe.Title,
-                ColorString = pe.colorString
+                ColorString = pe.ColorString
             };
         }
 
@@ -81,6 +83,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = savedEntity.Id,
                 Title = savedEntity.Title,
+                ColorString = savedEntity.ColorString
             };
         }
     }
