@@ -61,7 +61,7 @@ namespace TeScrumMasters.Webshop.DataAccess.Test
         }
         
         [Fact]
-        public void UserRegistration_WithLoginUser_IsNotNull()
+        public void UserRegistration_WithLoginUser_UserIsNotNull()
         {
 
             var fakeUserDetails = new UserDetails
