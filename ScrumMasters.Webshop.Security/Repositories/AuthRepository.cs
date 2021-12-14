@@ -14,8 +14,7 @@ namespace ScrumMasters.Webshop.Security
 {
     public class AuthRepository : IAuthRepository
     {
-
-        private readonly IConfiguration _configuration;
+        
         private readonly AuthDbContext _ctx;
 
         public AuthRepository(AuthDbContext context)
@@ -54,12 +53,11 @@ namespace ScrumMasters.Webshop.Security
                 .ToList();
         }
 
-        public LoginUser SaveUser(LoginUser userEntity)
+        public void SaveUser(LoginUser userEntity)
         {
             var savedEntity = _ctx.LoginUsers.Add(userEntity).Entity;
             _ctx.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = savedEntity.Id, User = savedEntity});
             _ctx.SaveChanges();
-            return savedEntity;
         }
     }
 }
