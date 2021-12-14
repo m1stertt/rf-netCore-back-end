@@ -8,8 +8,7 @@ namespace ScrumMasters.Webshop.Security
         public LoginUser IsValidUserInformation(LoginUser user);
         public LoginUser VerifyLoginUser(string email);
         public bool UserExists(UserDetails userDetails);
-        public LoginUser SaveUser(LoginUser userEntity);
-
+        public void SaveUser(LoginUser userEntity);
         List<Permission> GetPermissions(int userId);
 
     }
