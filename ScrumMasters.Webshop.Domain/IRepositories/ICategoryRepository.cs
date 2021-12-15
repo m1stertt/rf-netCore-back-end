@@ -6,6 +6,7 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
     public interface ICategoryRepository
     {
         List<Category> FindAll();
+        PagedCategoriesProductList<Product> GetPagedCategoriesProductList(CategoriesPaginationParameters categoriesPaginationParameters);
         Category GetById(int id);
         Category DeleteById(int id);
         Category Update(Category category);

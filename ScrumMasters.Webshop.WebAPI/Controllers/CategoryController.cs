@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.WebAPI.PolicyHandlers;
@@ -39,6 +40,26 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             }
             return Ok(_categoryService.GetCategoryById(id));
         }
+        
+        // [HttpGet]
+        // public ActionResult<List<Product>> GetAll([FromQuery] CategoriesPaginationParameters categoriesPaginationParameters)
+        // {
+        //     var products = _categoryService.GetPagedCategoryProducts(categoriesPaginationParameters);
+        //     
+        //     var metadata = new 
+        //     {
+        //         products.TotalCount,
+        //         products.PageSize,
+        //         products.CurrentPage,
+        //         products.TotalPages,
+        //         products.HasNext,
+        //         products.HasPrevious,
+        //         products.CategoryId
+        //     };
+        //     Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+        //
+        //     return Ok(products);
+        // }
         
         [Authorize(Policy = nameof(CanManageCategoriesHandler))]
         [HttpPost]  

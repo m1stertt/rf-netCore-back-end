@@ -54,7 +54,7 @@ namespace ScrumMasters.Webshop.Security.Services
                     new Claim("Id", userFound.Id.ToString()),
                     new Claim("Email", userFound.Email)
                 }),
-                Expires = DateTime.UtcNow.AddDays(14),
+                Expires = DateTime.UtcNow.AddDays(1),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
