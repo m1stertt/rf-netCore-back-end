@@ -44,14 +44,16 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             var entity = new ColorEntity()
             {
                 Title=color.Title,
+                ColorString = color.ColorString
                 //Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList()
             };
             var savedEntity = _context.Colors.Add(entity).Entity;
             _context.SaveChanges();
             return new Color()
             {
-                Id = color.Id,
-                Title=color.Title,
+                Id = savedEntity.Id,
+                Title=savedEntity.Title,
+                ColorString = savedEntity.ColorString
             };
         }
 
@@ -81,6 +83,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = savedEntity.Id,
                 Title = savedEntity.Title,
+                ColorString = savedEntity.ColorString
             };
         }
     }
