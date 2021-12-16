@@ -18,21 +18,13 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _categoryRepository.FindAll();
         }
+        
 
         public Category GetCategoryById(int id)
         {
             return _categoryRepository.GetById(id);
         }
-
-        public PagedProductList<Product> GetPagedCategoryProducts(ProductPaginationParameters productParameters)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public PagedCategoriesProductList<Product> GetPagedCategoryProducts(CategoriesPaginationParameters categoriesPaginationParameters)
-        {
-            return _categoryRepository.GetPagedCategoriesProductList(categoriesPaginationParameters);
-        }
+        
 
         public Category DeleteById(int id)
         {

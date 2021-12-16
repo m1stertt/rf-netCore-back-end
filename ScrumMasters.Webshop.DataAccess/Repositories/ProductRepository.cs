@@ -37,7 +37,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 .ToList();
         }
         
-        public PagedCategoriesProductList<Product> GetPagedCategoriesProductList(CategoriesPaginationParameters categoriesPaginationParameters)
+        public PagedCategoryProductList<Product> GetPagedCategoriesProductList(CategoriesPaginationParameters categoriesPaginationParameters)
         {
             var query = _context.Products
                 .Where(a => a.Categories
@@ -56,7 +56,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 })
                 .ToList();
                     
-            var pagedList1 = PagedCategoriesProductList<Product>.ToPagedList(query,
+            var pagedList1 = PagedCategoryProductList<Product>.ToPagedList(query,
                 categoriesPaginationParameters.PageNumber,
                 categoriesPaginationParameters.PageSize,
                 categoriesPaginationParameters.categoryId);

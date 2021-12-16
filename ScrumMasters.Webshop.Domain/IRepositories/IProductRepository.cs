@@ -8,7 +8,7 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
     {
         List<Product> FindAll();
         PagedProductList<Product> GetPagedProductList(ProductPaginationParameters productParameters);
-        PagedCategoriesProductList<Product> GetPagedCategoriesProductList(
+        PagedCategoryProductList<Product> GetPagedCategoriesProductList(
             CategoriesPaginationParameters categoriesPaginationParameters);
         Product FindById(int id);
         Product Create(Product product);

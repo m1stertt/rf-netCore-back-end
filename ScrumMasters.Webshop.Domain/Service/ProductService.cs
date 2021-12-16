@@ -18,7 +18,7 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _productRepository.GetPagedProductList(productParameters);
         }
-        public PagedCategoriesProductList<Product> GetPagedCategoryProducts(CategoriesPaginationParameters categoriesPaginationParameters)
+        public PagedCategoryProductList<Product> GetPagedCategoryProducts(CategoriesPaginationParameters categoriesPaginationParameters)
         {
             return _productRepository.GetPagedCategoriesProductList(categoriesPaginationParameters);
         }

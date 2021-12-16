@@ -45,7 +45,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         
             return Ok(products);
         }
-        [Route("GetPagedCategoryProducts")]
+        [Route("/api/Product/Category")]
         [HttpGet]
         public ActionResult<List<Product>> GetCategoryProducts([FromQuery] CategoriesPaginationParameters categoriesPaginationParameters)
         {

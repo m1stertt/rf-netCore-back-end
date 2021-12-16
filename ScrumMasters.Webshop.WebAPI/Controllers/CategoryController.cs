@@ -40,27 +40,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             }
             return Ok(_categoryService.GetCategoryById(id));
         }
-        
-        // [HttpGet]
-        // public ActionResult<List<Product>> GetAll([FromQuery] CategoriesPaginationParameters categoriesPaginationParameters)
-        // {
-        //     var products = _categoryService.GetPagedCategoryProducts(categoriesPaginationParameters);
-        //     
-        //     var metadata = new 
-        //     {
-        //         products.TotalCount,
-        //         products.PageSize,
-        //         products.CurrentPage,
-        //         products.TotalPages,
-        //         products.HasNext,
-        //         products.HasPrevious,
-        //         products.CategoryId
-        //     };
-        //     Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-        //
-        //     return Ok(products);
-        // }
-        
+
         [Authorize(Policy = nameof(CanManageCategoriesHandler))]
         [HttpPost]  
         public ActionResult<Category> Post([FromBody] Category category)

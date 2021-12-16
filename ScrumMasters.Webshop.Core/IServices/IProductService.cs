@@ -7,7 +7,7 @@ namespace ScrumMasters.Webshop.Core.IServices
     {
         PagedProductList<Product> GetPagedProductList(ProductPaginationParameters productParameters);
 
-        PagedCategoriesProductList<Product> GetPagedCategoryProducts(
+        PagedCategoryProductList<Product> GetPagedCategoryProducts(
             CategoriesPaginationParameters categoriesPaginationParameters);
         Product GetProductById(int id);
         Product Create(Product product);
