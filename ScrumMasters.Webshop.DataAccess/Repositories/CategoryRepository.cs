@@ -28,42 +28,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 .ToList();
         }
         
-        public PagedCategoryProductList<Product> GetPagedCategoriesProductList(CategoriesPaginationParameters categoriesPaginationParameters)
-        {
-            var query = context.Products
-                    .Where(a => a.Categories
-                        .Any(c => c.Id == categoriesPaginationParameters.categoryId)).Select(pe => new Product
-                    {
-                        Id = pe.Id,
-                        ProductName = pe.ProductName,
-                        ProductPrice = pe.ProductPrice,
-                        ProductDescription = pe.ProductDescription,
-                        ProductImageUrl = pe.ProductImageUrl,
-                        ProductFeatured = pe.ProductFeatured,
-                        Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
-                        Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
-                        Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
-                        Images = pe.Images.Select(px=>new Image{Id = px.Id,Title = px.Title,Path=px.Path}).ToList(),
-                    })
-                    .ToList();
-                    
-                var pagedList1 = PagedCategoryProductList<Product>.ToPagedList(query,
-                categoriesPaginationParameters.PageNumber,
-                categoriesPaginationParameters.PageSize,
-                categoriesPaginationParameters.categoryId);
-                return pagedList1;
-        }
-
-        // public Category GetById(int id)
-        // {
-        //     return context.Categories
-        //         .Select(pe => new Category
-        //         {
-        //             Id = pe.Id,
-        //             Name = pe.Name,
-        //             Products = pe.Product.Select(px=>new Product{Id = px.Id,ProductName = px.ProductName}).ToList()
-        //         }).FirstOrDefault(category => category.Id == id);
-        // }
         
                 public Category GetById(int id)
         {

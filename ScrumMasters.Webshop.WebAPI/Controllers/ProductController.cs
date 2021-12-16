@@ -59,7 +59,8 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 products.TotalPages,
                 products.HasNext,
                 products.HasPrevious,
-                products.CategoryId
+                products.CategoryId,
+                products.ColorIds
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 

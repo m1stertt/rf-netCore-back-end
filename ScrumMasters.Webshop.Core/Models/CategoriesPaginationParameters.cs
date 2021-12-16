@@ -12,5 +12,7 @@ namespace ScrumMasters.Webshop.Core.Models
         }
 
         public int categoryId { get; set; }
+
+        public string ColorIds { get; set; }
     }
 }

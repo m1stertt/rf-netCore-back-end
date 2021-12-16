@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,9 +40,17 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
         
         public PagedCategoryProductList<Product> GetPagedCategoriesProductList(CategoriesPaginationParameters categoriesPaginationParameters)
         {
+            var values = categoriesPaginationParameters.ColorIds != null ? Array.ConvertAll(categoriesPaginationParameters.ColorIds.Split(new[] { ","},StringSplitOptions.RemoveEmptyEntries),
+                x => { return Int32.Parse(x);}) : null;
+            
             var query = _context.Products
                 .Where(a => a.Categories
-                    .Any(c => c.Id == categoriesPaginationParameters.categoryId)).Select(pe => new Product
+                    .Any(c => c.Id == categoriesPaginationParameters.categoryId));
+            if (values is {Length: > 0})
+            {
+                query = query.Where(a => a.Colors.Any(c => values.Contains(c.Id)));
+            }
+            var select = query.Select(pe => new Product
                 {
                     Id = pe.Id,
                     ProductName = pe.ProductName,
@@ -56,11 +65,12 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 })
                 .ToList();
                     
-            var pagedList1 = PagedCategoryProductList<Product>.ToPagedList(query,
+            var pagedList = PagedCategoryProductList<Product>.ToPagedList(select,
                 categoriesPaginationParameters.PageNumber,
                 categoriesPaginationParameters.PageSize,
-                categoriesPaginationParameters.categoryId);
-            return pagedList1;
+                categoriesPaginationParameters.categoryId,
+                values);
+            return pagedList;
         }
 
         public PagedProductList<Product> GetPagedProductList(ProductPaginationParameters productParameters)

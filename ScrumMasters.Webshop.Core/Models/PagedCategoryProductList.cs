@@ -13,7 +13,9 @@ namespace ScrumMasters.Webshop.Core.Models
         public bool HasPrevious => CurrentPage > 1;
         public bool HasNext => CurrentPage < TotalPages;
         public int CategoryId { get; set; }
-        public PagedCategoryProductList(List<T> items, int count, int pageNumber, int pageSize, int categoryId)
+        
+        public int[] ColorIds { get; set; }
+        public PagedCategoryProductList(List<T> items, int count, int pageNumber, int pageSize, int categoryId, int[] colorIds)
         {
             TotalCount = count;
             PageSize = pageSize;
@@ -22,11 +24,11 @@ namespace ScrumMasters.Webshop.Core.Models
             CategoryId = categoryId;
             AddRange(items);
         }
-        public static PagedCategoryProductList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize, int categoryId)
+        public static PagedCategoryProductList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize, int categoryId, int[] colorIds)
         {
             var count = source.Count();
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedCategoryProductList<T>(items, count, pageNumber, pageSize, categoryId);
+            return new PagedCategoryProductList<T>(items, count, pageNumber, pageSize, categoryId, colorIds);
         }
     }
 }
