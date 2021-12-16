@@ -46,7 +46,7 @@ namespace ScrumMasters.Webshop.Security.Services
             if (userFound == null) return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:key"]);
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:Secret"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
