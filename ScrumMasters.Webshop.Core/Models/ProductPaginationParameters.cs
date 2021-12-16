@@ -1,6 +1,6 @@
 ﻿namespace ScrumMasters.Webshop.Core.Models
 {
-    public class ProductParameters
+    public class ProductPaginationParameters
     {
         const int _maxPageSize = 20;
         public int PageNumber { get; set; } = 1;
@@ -8,10 +8,7 @@
         public int PageSize
         {
             get => _pageSize;
-            set
-            {
-                _pageSize = (value > _maxPageSize) ? _maxPageSize : value;
-            }
+            init => _pageSize = (value > _maxPageSize) ? _maxPageSize : value;
         }
 
         public string SearchString { get; set; }

@@ -14,9 +14,13 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             _productRepository = productRepository ?? throw new InvalidDataException("ProductRepository Cannot Be Null");
         }
-        public PagedList<Product> GetProducts(ProductParameters productParameters)
+        public PagedProductList<Product> GetPagedProductList(ProductPaginationParameters productParameters)
         {
-            return _productRepository.GetProducts(productParameters);
+            return _productRepository.GetPagedProductList(productParameters);
+        }
+        public PagedCategoryProductList<Product> GetPagedCategoryProducts(CategoriesPaginationParameters categoriesPaginationParameters)
+        {
+            return _productRepository.GetPagedCategoriesProductList(categoriesPaginationParameters);
         }
 
         public Product Create(Product product)

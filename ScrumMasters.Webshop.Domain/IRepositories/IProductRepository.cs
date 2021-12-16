@@ -7,7 +7,9 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
     public interface IProductRepository
     {
         List<Product> FindAll();
-        PagedList<Product> GetProducts(ProductParameters productParameters);
+        PagedProductList<Product> GetPagedProductList(ProductPaginationParameters productParameters);
+        PagedCategoryProductList<Product> GetPagedCategoriesProductList(
+            CategoriesPaginationParameters categoriesPaginationParameters);
         Product FindById(int id);
         Product Create(Product product);
         Product Update(Product product);

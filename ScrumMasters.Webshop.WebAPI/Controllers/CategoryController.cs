@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.WebAPI.PolicyHandlers;
@@ -39,7 +40,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             }
             return Ok(_categoryService.GetCategoryById(id));
         }
-        
+
         [Authorize(Policy = nameof(CanManageCategoriesHandler))]
         [HttpPost]  
         public ActionResult<Category> Post([FromBody] Category category)
