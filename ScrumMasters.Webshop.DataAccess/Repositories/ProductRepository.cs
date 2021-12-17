@@ -30,6 +30,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     ProductDescription = pe.ProductDescription,
                     ProductImageUrl = pe.ProductImageUrl,
                     ProductFeatured = pe.ProductFeatured,
+                    ProductDiscountPrice = pe.ProductDiscountPrice,
                     Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
                     Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
                     Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
@@ -135,6 +136,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductDescription = pe.ProductDescription,
                 ProductImageUrl = pe.ProductImageUrl,
                 ProductFeatured = pe.ProductFeatured,
+                ProductDiscountPrice = pe.ProductDiscountPrice,
                 Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
                 Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
                 Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title,ColorString = px.ColorString}).ToList(),
@@ -151,7 +153,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductPrice = product.ProductPrice,
                 ProductDescription = product.ProductDescription,
                 ProductImageUrl = product.ProductImageUrl,
-                //ProductFeatured = product.ProductFeatured,
+                ProductDiscountPrice = product.ProductDiscountPrice,
+                ProductFeatured = product.ProductFeatured,
             };
             var savedEntity = _context.Products.Add(productEntity).Entity;
             _context.SaveChanges();
@@ -162,7 +165,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
                 ProductImageUrl = savedEntity.ProductImageUrl,
-                //ProductFeatured = savedEntity.ProductFeatured,
+                ProductFeatured = savedEntity.ProductFeatured,
+                ProductDiscountPrice = savedEntity.ProductDiscountPrice,
             };
         }
 
@@ -177,6 +181,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             edit.ProductDescription = product.ProductDescription;
             edit.ProductImageUrl = product.ProductImageUrl;
             edit.ProductFeatured = product.ProductFeatured;
+            edit.ProductDiscountPrice = product.ProductDiscountPrice;
             edit.Categories = product.Categories.Select(px =>_context.Categories.Single(pe=>px.Id==pe.Id)).ToList();
             edit.Sizes = product.Sizes.Select(px =>_context.Sizes.Single(pe=>px.Id==pe.Id)).ToList();
             edit.Colors = product.Colors.Select(px =>_context.Colors.Single(pe=>px.Id==pe.Id)).ToList();
@@ -196,6 +201,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductDescription = savedEntity.ProductDescription,
                 ProductImageUrl = savedEntity.ProductImageUrl,
                 ProductFeatured = savedEntity.ProductFeatured,
+                ProductDiscountPrice = savedEntity.ProductDiscountPrice,
             };
         }
 
@@ -209,6 +215,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductDescription = pe.ProductDescription,
                 ProductImageUrl = pe.ProductImageUrl,
                 ProductFeatured = pe.ProductFeatured,
+                ProductDiscountPrice = pe.ProductDiscountPrice,
                 Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
                 Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
                 Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
