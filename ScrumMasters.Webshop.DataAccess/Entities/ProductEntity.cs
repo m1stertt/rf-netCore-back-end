@@ -11,6 +11,7 @@ namespace ScrumMasters.Webshop.DataAccess.Entities
         public string ProductName { get; set; }
         
         public double ProductPrice { get; set; }
+        public double ProductDiscountPrice { get; set; }
         
         public string ProductDescription { get; set; }
         
@@ -24,5 +25,7 @@ namespace ScrumMasters.Webshop.DataAccess.Entities
         public List<ImageEntity> Images { get; set; }
         
         public List<OrderEntity> Orders { get; set; }
+        
+        public List<InventoryStockEntity> InventoryStocks { get; set; }
     }
 }

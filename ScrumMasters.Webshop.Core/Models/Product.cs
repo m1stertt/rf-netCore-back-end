@@ -9,6 +9,7 @@ namespace ScrumMasters.Webshop.Core.Models
         public string ProductName { get; set; }
         
         public double ProductPrice { get; set; }
+        public double ProductDiscountPrice { get; set; }
         
         public string ProductDescription { get; set; }
         
