@@ -17,6 +17,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public User Create(User user)
         {
+            if (user == null) return null;
             var ue = new UserEntity()
             {
                 Id = user.Id,
@@ -43,9 +44,10 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             };
         }
 
-        public bool CheckByEmail(string id)
+        public bool CheckByEmail(string email)
         {
-            if (_context.Users.Any(user => id.Equals(user.Email)))
+            if (email.Equals("")) return false;
+            if (_context.Users.Any(user => email.Equals(user.Email)))
             {
                 return true;
             }
@@ -55,6 +57,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public User GetUserById(int id)
         {
+            if (id == 0) return null;
             return _context.Users.Select(pe => new User()
             {
                 Id = pe.Id,
@@ -70,6 +73,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public User Update(User user)
         {
+            if (user == null) return null;
             var ue = _context.Update(new UserEntity()
             {
                 Id = user.Id,
@@ -97,6 +101,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public User DeleteById(int id)
         {
+            if (id == 0) return null;
             var deletedEntity = _context.Users.Remove(new UserEntity() {Id = id}).Entity;
             _context.SaveChanges();
             return new User()

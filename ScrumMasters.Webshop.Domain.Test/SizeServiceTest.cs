@@ -57,5 +57,85 @@ namespace ScrumMasters.Webshop.Domain.Test
             var actual = _service.GetSizes();
             Assert.Equal(_expected, actual);
         }
+        
+        [Fact]
+        public void GetSize_WithId_ReturnsSize()
+        {
+            Size _expected = new Size();
+            _mock.Setup(r => r.FindById(1))
+                .Returns(_expected);
+            var actual = _service.GetSizeById(1);
+            Assert.Equal(_expected, actual);
+        }
+        
+        [Fact]
+        public void GetSize_WithIdZero_ReturnsNull()
+        {
+            _mock.Setup(r => r.FindById(0))
+                .Returns((Size)null);
+            var actual = _service.GetSizeById(0);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void DeleteSize_WithIdZero_ReturnsNull()
+        {
+            _mock.Setup(r => r.DeleteById(0))
+                .Returns((Size)null);
+            var actual = _service.DeleteById(0);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void CreateSize_WithSizeNull_ReturnsNull()
+        {
+            Size mock = null;
+            _mock.Setup(r => r.Create(mock))
+                .Returns((Size)null);
+            var actual = _service.Create(null);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void UpdateSize_WithSizeNull_ReturnsNull()
+        {
+            Size mock = null;
+            _mock.Setup(r => r.Create(mock))
+                .Returns((Size)null);
+            var actual = _service.Create(null);
+            Assert.Null(actual);
+        }
+        [Fact]
+        public void DeleteSizeById_ReturnsSize()
+        {
+            Size _expected = new Size();
+            
+            _mock.Setup(r => r.DeleteById(1))
+                .Returns(_expected);
+            var actual = _service.DeleteById(1);
+            Assert.Equal(_expected, actual);
+        }
+        
+        [Fact]
+        public void UpdateSizeWithSize_ReturnsSize()
+        {
+            Size _expected = new Size();
+            
+            _mock.Setup(r => r.Update(_expected))
+                .Returns(_expected);
+            var actual = _service.Update(_expected);
+            Assert.Equal(_expected, actual);
+        }
+        
+        [Fact]
+        public void CreateSizeWithSize_ReturnsSize()
+        {
+            Size _expected = new Size();
+            
+            _mock.Setup(r => r.Create(_expected))
+                .Returns(_expected);
+            var actual = _service.Create(_expected);
+            Assert.Equal(_expected, actual);
+        }
     }
 }

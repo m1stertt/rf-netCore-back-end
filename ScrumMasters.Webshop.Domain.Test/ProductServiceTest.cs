@@ -77,6 +77,87 @@ namespace ScrumMasters.Webshop.Domain.Test
                 var actual = _service.GetPagedProductList(productParameters);
                 Assert.Equal(_expected, actual);
             }
+            
+            [Fact]
+            public void GetProduct_WithId_ReturnsProduct()
+            {
+                Product mock = new Product();
+                _mock.Setup(r => r.FindById(1))
+                    .Returns(mock);
+                var actual = _service.GetProductById(1);
+                Assert.Equal(mock, actual);
+            }
+        
+            [Fact]
+            public void GetProduct_WithIdZero_ReturnsNull()
+            {
+                _mock.Setup(r => r.FindById(0))
+                    .Returns((Product)null);
+                var actual = _service.GetProductById(0);
+                Assert.Null(actual);
+            }
+        
+            [Fact]
+            public void DeleteProduct_WithIdZero_ReturnsNull()
+            {
+                _mock.Setup(r => r.DeleteById(0))
+                    .Returns((Product)null);
+                var actual = _service.DeleteById(0);
+                Assert.Null(actual);
+            }
+        
+            [Fact]
+            public void CreateProduct_WithProductNull_ReturnsNull()
+            {
+                Product mock = null;
+                _mock.Setup(r => r.Create(mock))
+                    .Returns((Product)null);
+                var actual = _service.Create(null);
+                Assert.Null(actual);
+            }
+        
+            [Fact]
+            public void UpdateProduct_WithProductNull_ReturnsNull()
+            {
+                Product mock = null;
+                _mock.Setup(r => r.Create(mock))
+                    .Returns((Product)null);
+                var actual = _service.Create(null);
+                Assert.Null(actual);
+            }
+            
+            [Fact]
+            public void DeleteProductById_ReturnsProduct()
+            {
+                Product _expected = new Product();
+            
+                _mock.Setup(r => r.DeleteById(1))
+                    .Returns(_expected);
+                var actual = _service.DeleteById(1);
+                Assert.Equal(_expected, actual);
+            }
+        
+            [Fact]
+            public void UpdateProductWithProduct_ReturnsProduct()
+            {
+                Product _expected = new Product();
+            
+                _mock.Setup(r => r.Update(_expected))
+                    .Returns(_expected);
+                var actual = _service.Update(_expected);
+                Assert.Equal(_expected, actual);
+            }
+        
+            [Fact]
+            public void CreateProductWithProduct_ReturnsProduct()
+            {
+                Product _expected = new Product();
+            
+                _mock.Setup(r => r.Create(_expected))
+                    .Returns(_expected);
+                var actual = _service.Create(_expected);
+                Assert.Equal(_expected, actual);
+            }
         }
     }
 }
