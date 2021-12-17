@@ -27,9 +27,9 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Product>> GetAll([FromQuery] ProductParameters productParameters)
+        public ActionResult<List<Product>> GetProducts([FromQuery] ProductPaginationParameters productParameters)
         {
-            var products = _productService.GetProducts(productParameters);
+            var products = _productService.GetPagedProductList(productParameters);
             
             var metadata = new 
             {
@@ -40,6 +40,27 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 products.HasNext,
                 products.HasPrevious,
                 products.SearchString
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+        
+            return Ok(products);
+        }
+        [Route("/api/Product/Category")]
+        [HttpGet]
+        public ActionResult<List<Product>> GetCategoryProducts([FromQuery] CategoriesPaginationParameters categoriesPaginationParameters)
+        {
+            var products = _productService.GetPagedCategoryProducts(categoriesPaginationParameters);
+            
+            var metadata = new 
+            {
+                products.TotalCount,
+                products.PageSize,
+                products.CurrentPage,
+                products.TotalPages,
+                products.HasNext,
+                products.HasPrevious,
+                products.CategoryId,
+                products.ColorIds
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 

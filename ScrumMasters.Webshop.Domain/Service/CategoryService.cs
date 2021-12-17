@@ -18,11 +18,13 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _categoryRepository.FindAll();
         }
+        
 
         public Category GetCategoryById(int id)
         {
             return _categoryRepository.GetById(id);
         }
+        
 
         public Category DeleteById(int id)
         {

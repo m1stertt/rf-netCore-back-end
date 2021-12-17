@@ -69,7 +69,11 @@ namespace ScrumMasters.Webshop.WebAPI
                     }
                 });
             });
-            services.AddDbContext<MainDbContext>(opt => { opt.UseSqlite("Data Source=main.db").LogTo(Console.WriteLine); });
+            // Dependency Injection.
+            services.AddDbContext<MainDbContext>(opt =>
+            {
+                opt.UseSqlite("Data Source=main.db").LogTo(Console.WriteLine);
+            });
             services.AddDbContext<AuthDbContext>(opt => { opt.UseSqlite("Data Source=auth.db"); });
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
@@ -81,11 +85,15 @@ namespace ScrumMasters.Webshop.WebAPI
             services.AddScoped<ISizeService, SizeService>();
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IImageService, ImageService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
-            
+            services.AddScoped<IMainDbSeeder, MainDbSeeder>();
+
+            // Dependency Injection for security.
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthDbSeeder, AuthDbSeeder>();
+
             //
             services.AddAuthentication(option =>
             {
@@ -97,13 +105,13 @@ namespace ScrumMasters.Webshop.WebAPI
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = false,
+                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
+                    ValidIssuer = Configuration["JwtConfig:Issuer"],
+                    ValidAudience = Configuration["JwtConfig:Audience"],
                     IssuerSigningKey =
                         new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]
+                            Encoding.UTF8.GetBytes(Configuration["JwtConfig:Secret"]))
                 };
             });
             services.AddSingleton<IAuthorizationHandler, AdminHandler>();
@@ -154,7 +162,8 @@ namespace ScrumMasters.Webshop.WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app, IWebHostEnvironment env,
-            MainDbContext mainContext, AuthDbContext authDbContext)
+            IMainDbSeeder mainDbSeeder,
+            IAuthDbSeeder authDbSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -162,159 +171,30 @@ namespace ScrumMasters.Webshop.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Innotech.LegosforLife.WebApi v1"));
                 app.UseCors("Development-cors");
-
-
-                #region Setup Contexts
-
-                mainContext.Database.EnsureDeleted();
-                mainContext.Database.EnsureCreated();
-                mainContext.SaveChanges();
-                ProductEntity pe1 = new ProductEntity
-                {
-                    ProductName = "P1", ProductPrice=250,ProductFeatured = true, Categories = new List<CategoryEntity>(),
-                    Sizes = new List<SizeEntity>(), Colors = new List<ColorEntity>(), Images = new List<ImageEntity>()
-                };
-                ProductEntity pe2 = new ProductEntity
-                {
-                    ProductName = "P2" ,ProductPrice=200, Categories = new List<CategoryEntity>(), Sizes = new List<SizeEntity>(),
-                    Colors = new List<ColorEntity>(), Images = new List<ImageEntity>()
-                };
-                ProductEntity pe3 = new ProductEntity
-                {
-                    ProductName = "P3",ProductPrice=350, Categories = new List<CategoryEntity>(), Sizes = new List<SizeEntity>(),
-                    Colors = new List<ColorEntity>(), Images = new List<ImageEntity>()
-                };
-
-                CategoryEntity ce1 = new CategoryEntity {Name = "Bukser"};
-                CategoryEntity ce2 = new CategoryEntity {Name = "Sko"};
-                CategoryEntity ce3 = new CategoryEntity {Name = "Kjoler"};
-
-                ColorEntity color1 = new ColorEntity {Title = "Rød",ColorString="#FF0000"};
-                ColorEntity color2 = new ColorEntity {Title = "Blå",ColorString="#0000FF"};
-                ColorEntity color3 = new ColorEntity {Title = "Gul",ColorString="#FFFF00"};
-                ColorEntity color4 = new ColorEntity {Title = "Grøn",ColorString="#00FF00"};
-                ColorEntity color5 = new ColorEntity {Title = "Grå",ColorString="#808080"};
-
-                SizeEntity se1 = new SizeEntity {Title = "30/30"};
-                SizeEntity se2 = new SizeEntity {Title = "25"};
-                SizeEntity se3 = new SizeEntity {Title = "30"};
-
-                ImageEntity ie1 = new ImageEntity
-                {
-                    Title = "Some title",
-                    Tags = "Some, Tags, Hey, World",
-                    Path = "test2.jpg",
-                    Desc = "Some description",
-                };
                 
-                ImageEntity ie2 = new ImageEntity {
-                    Title = "Some title34",
-                    Tags = "Some, Tags, Hey34, World",
-                    Path = "test1.jpg",
-                    Desc = "Some description34",
-                };
-                
-                ImageEntity ie3 = new ImageEntity
-                {
-                    Title = "Some title",
-                    Tags = "Some, Tags, Hey, World",
-                    Path = "billed1.jpg",
-                    Desc = "Some description",
-                };
-                
-                ImageEntity ie4 = new ImageEntity
-                {
-                    Title = "Some title",
-                    Tags = "Some, Tags, Hey, World",
-                    Path = "billed2.jpg",
-                    Desc = "Some description",
-                };
-                
-                pe1.Categories.Add(ce1);
-                pe1.Categories.Add(ce2);
-                pe1.Colors.Add(color1);
-                pe1.Colors.Add(color5);
-                pe1.Sizes.Add(se1);
-                pe1.Images.Add(ie1);
-                pe1.Images.Add(ie4);
-
-                pe2.Categories.Add(ce2);
-                pe2.Colors.Add(color2);
-                pe2.Colors.Add(color1);
-                pe2.Sizes.Add(se1);
-                pe2.Sizes.Add(se2);
-                pe2.Images.Add(ie2);
-                
-                pe3.Categories.Add(ce3);
-                pe3.Colors.Add(color3);
-                pe3.Colors.Add(color4);
-                pe3.Sizes.Add(se3);
-                pe3.Images.Add(ie3);
-
-
-                mainContext.Products.AddRange(pe1, pe2, pe3);
-                mainContext.SaveChanges();
-
-                authDbContext.Database.EnsureDeleted();
-                authDbContext.Database.EnsureCreated();
-                AuthService.CreateHashAndSalt("123456", out var passwordHash, out var salt);
-
-                authDbContext.LoginUsers.Add(new LoginUser
-                {
-                    Email = "ljuul@ljuul.dk",
-                    HashedPassword = passwordHash,
-                    PasswordSalt = salt,
-                    DbUserId = 1,
-                });
-                AuthService.CreateHashAndSalt("123456", out passwordHash, out salt);
-                authDbContext.LoginUsers.Add(new LoginUser
-                {
-                    Email = "ljuul2@ljuul.dk",
-                    HashedPassword = passwordHash,
-                    PasswordSalt = salt,
-                    DbUserId = 2,
-                });
-                authDbContext.Permissions.AddRange(new Permission()
-                {
-                    Name = "Admin"
-                }, new Permission()
-                {
-                    Name = "CanManageProducts"
-                }, new Permission()
-                {
-                    Name = "CanManageCategories"
-                }, new Permission()
-                {
-                    Name = "CanManageAccount"
-                }, new Permission());
-                authDbContext.SaveChanges();
-                authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 1, UserId = 1});
-                authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
-                authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 2});
-                authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
-    
-
-                #endregion
-
-                app.UseMiddleware<JWTMiddleware>();
-
-                app.UseHttpsRedirection();
-
-                app.UseStaticFiles();
-                app.UseStaticFiles(new StaticFileOptions()
-                {
-                    FileProvider =
-                        new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-                    RequestPath = new PathString("/Resources")
-                });
-
-                app.UseRouting();
-
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+                mainDbSeeder.SeedDevelopment();
+                authDbSeeder.SeedDevelopment();
             }
+            else
+            {
+                mainDbSeeder.SeedProduction();
+                authDbSeeder.SeedProduction();
+                app.UseCors("Production-cors");
+            }
+
+            app.UseRouting();
+            app.UseMiddleware<JWTMiddleware>();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider =
+                    new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
         }
     }
 }

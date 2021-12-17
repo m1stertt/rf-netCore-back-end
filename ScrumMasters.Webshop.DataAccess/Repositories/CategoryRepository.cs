@@ -27,8 +27,9 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 })
                 .ToList();
         }
-
-        public Category GetById(int id)
+        
+        
+                public Category GetById(int id)
         {
             return context.Categories
                 .Select(pe => new Category

@@ -46,7 +46,7 @@ namespace ScrumMasters.Webshop.Security.Services
             if (userFound == null) return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:key"]);
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtConfig:Secret"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -54,9 +54,9 @@ namespace ScrumMasters.Webshop.Security.Services
                     new Claim("Id", userFound.Id.ToString()),
                     new Claim("Email", userFound.Email)
                 }),
-                Expires = DateTime.UtcNow.AddDays(14),
-                Issuer = _configuration["Jwt:Issuer"],
-                Audience = _configuration["Jwt:Audience"],
+                Expires = DateTime.UtcNow.AddMinutes(10),
+                Issuer = _configuration["JwtConfig:Issuer"],
+                Audience = _configuration["JwtConfig:Audience"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };

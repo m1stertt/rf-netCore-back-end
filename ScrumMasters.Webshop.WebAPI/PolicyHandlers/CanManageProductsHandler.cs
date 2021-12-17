@@ -8,9 +8,10 @@ using ScrumMasters.Webshop.Security.Model;
 
 namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
 {
-    public class CanManageProductsHandler: AuthorizationHandler<CanManageProductsHandler>, IAuthorizationRequirement
+    public class CanManageProductsHandler : AuthorizationHandler<CanManageProductsHandler>, IAuthorizationRequirement
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanManageProductsHandler handler)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+            CanManageProductsHandler handler)
         {
             var defaultContext = context.Resource as DefaultHttpContext;
             if (defaultContext?.Items["LoginUser"] is LoginUser user)
@@ -20,10 +21,6 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
                 if (permissions.Exists(p => p.Name.Equals("CanManageProducts")))
                 {
                     context.Succeed(handler);
-                }
-                else
-                {
-                    context.Fail();
                 }
             }
             else

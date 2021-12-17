@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -37,13 +38,48 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 })
                 .ToList();
         }
+        
+        public PagedCategoryProductList<Product> GetPagedCategoriesProductList(CategoriesPaginationParameters categoriesPaginationParameters)
+        {
+            var values = categoriesPaginationParameters.ColorIds != null ? Array.ConvertAll(categoriesPaginationParameters.ColorIds.Split(new[] { ","},StringSplitOptions.RemoveEmptyEntries),
+                x => { return Int32.Parse(x);}) : null;
+            
+            var query = _context.Products
+                .Where(a => a.Categories
+                    .Any(c => c.Id == categoriesPaginationParameters.categoryId));
+            if (values is {Length: > 0})
+            {
+                query = query.Where(a => a.Colors.Any(c => values.Contains(c.Id)));
+            }
+            var select = query.Select(pe => new Product
+                {
+                    Id = pe.Id,
+                    ProductName = pe.ProductName,
+                    ProductPrice = pe.ProductPrice,
+                    ProductDescription = pe.ProductDescription,
+                    ProductImageUrl = pe.ProductImageUrl,
+                    ProductFeatured = pe.ProductFeatured,
+                    Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
+                    Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
+                    Colors = pe.Colors.Select(px=>new Color{Id = px.Id,Title = px.Title}).ToList(),
+                    Images = pe.Images.Select(px=>new Image{Id = px.Id,Title = px.Title,Path=px.Path}).ToList(),
+                })
+                .ToList();
+                    
+            var pagedList = PagedCategoryProductList<Product>.ToPagedList(select,
+                categoriesPaginationParameters.PageNumber,
+                categoriesPaginationParameters.PageSize,
+                categoriesPaginationParameters.categoryId,
+                values);
+            return pagedList;
+        }
 
-        public PagedList<Product> GetProducts(ProductParameters productParameters)
+        public PagedProductList<Product> GetPagedProductList(ProductPaginationParameters productParameters)
         {
 
             if (!string.IsNullOrEmpty(productParameters.SearchString))
             {
-                var pagedList = PagedList<Product>.ToPagedList(FindAll().Where(product => product.ProductName.ToLower().Contains(productParameters.SearchString.ToLower())),
+                var pagedList = PagedProductList<Product>.ToPagedList(FindAll().Where(product => product.ProductName.ToLower().Contains(productParameters.SearchString.ToLower())),
                     productParameters.PageNumber,
                     productParameters.PageSize,
                     productParameters.SearchString);
@@ -51,7 +87,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             }
             else
             {
-                var pagedList = PagedList<Product>.ToPagedList(FindAll().OrderBy(product => product.ProductName),
+                var pagedList = PagedProductList<Product>.ToPagedList(FindAll().OrderBy(product => product.ProductName),
                     productParameters.PageNumber,
                     productParameters.PageSize,
                     productParameters.SearchString);
@@ -59,6 +95,36 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             }
 
         }
+
+        // public PagedCategoriesProductList<Product> GetPagedCategoriesProductList(CategoriesPaginationParameters categoriesPaginationParameters)
+        // {
+        //     if (categoriesPaginationParameters.Category != null)
+        //     {
+        //         var products = _context.Categories.Where(entity => entity.Id == categoriesPaginationParameters.Category.Id)
+        //             .SelectMany(entity => entity.Product);
+        //         
+        //         var pagedList = PagedCategoriesProductList<Product>.ToPagedList(
+        //             _context.Categories.Where(entity => entity.Id == categoriesPaginationParameters.Category.Id)
+        //                 .SelectMany(entity => entity.Product),
+        //             categoriesPaginationParameters.PageNumber,
+        //             categoriesPaginationParameters.PageSize,
+        //             categoriesPaginationParameters.Category.Name
+        //             );
+        //         // var pagedList = PagedCategoriesProductList<Product>.ToPagedList(FindAll().Where(product => product.Id.Equals(categoriesPaginationParameters.Category.Products.Where(product1 => product.Id == product1.Id))),
+        //         //     categoriesPaginationParameters.PageNumber,
+        //         //     categoriesPaginationParameters.PageSize,
+        //         //     categoriesPaginationParameters.Category.Name);
+        //         // return pagedList;
+        //     }
+        //     else
+        //     {
+        //         var pagedList = PagedCategoriesProductList<Product>.ToPagedList(FindAll().OrderBy(product => product.ProductName),
+        //             categoriesPaginationParameters.PageNumber,
+        //             categoriesPaginationParameters.PageSize,
+        //             categoriesPaginationParameters.Category.Name);
+        //         return pagedList;
+        //     }
+        // }
 
         public Product FindById(int id)
         {

@@ -20,14 +20,14 @@ namespace ScrumMasters.Webshop.Core.Test
         
             private readonly Mock<IProductRepository> _mock;
             private readonly ProductService _service;
-            private readonly PagedList<Product> _expected;
+            private readonly PagedProductList<Product> _expected;
 
             public IProductServiceTest()
             {
                 _mock = new Mock<IProductRepository>();
                 _service = new ProductService(_mock.Object);
                 var products = new List<Product>();
-                _expected = new PagedList<Product>(products,5,1,2, "kjoler");
+                _expected = new PagedProductList<Product>(products,5,1,2, "kjoler");
  
             }
 
@@ -59,28 +59,28 @@ namespace ScrumMasters.Webshop.Core.Test
             [Fact]
             public void GetProducts_CallsProductRepositoriesFindAll_ExactlyOnce()
             {
-                var productParameters = new ProductParameters
+                var productParameters = new ProductPaginationParameters
                 {
                     PageSize = 5,
                     PageNumber = 1
                 };
 
-                _service.GetProducts(productParameters);
-                _mock.Verify(r => r.GetProducts(productParameters), Times.Once);
+                _service.GetPagedProductList(productParameters);
+                _mock.Verify(r => r.GetPagedProductList(productParameters), Times.Once);
             }
 
             [Fact]
             public void GetProducts_PagedFilter_ReturnsListOfAllProducts()
             {
-                var productParameters = new ProductParameters
+                var productParameters = new ProductPaginationParameters
                 {
                     PageSize = 5,
                     PageNumber = 1
                 };
-                _mock.Setup(r => r.GetProducts(productParameters))
+                _mock.Setup(r => r.GetPagedProductList(productParameters))
                     .Returns(_expected);
 
-                var actual = _service.GetProducts(productParameters);
+                var actual = _service.GetPagedProductList(productParameters);
                 Assert.Equal(_expected, actual);
             }
     }
