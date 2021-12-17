@@ -30,6 +30,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Color FindById(int id)
         {
+            if (id == 0) return null;
             return _context.Colors.Select(pe => new Color()
             {
                 Id = pe.Id,
@@ -41,11 +42,11 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Color Create(Color color)
         {
+            if (color == null) return null;
             var entity = new ColorEntity()
             {
                 Title=color.Title,
                 ColorString = color.ColorString
-                //Products = pe.Products.Select(px => new Product {Id = px.Id, ProductName = px.ProductName}).ToList()
             };
             var savedEntity = _context.Colors.Add(entity).Entity;
             _context.SaveChanges();
@@ -59,6 +60,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Color Update(Color color)
         {
+            if (color == null) return null;
             var pe = _context.Update(new ColorEntity
             {
                 Id = color.Id,
@@ -77,6 +79,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Color DeleteById(int id)
         {
+            if (id == 0) return null;
             var savedEntity = _context.Colors.Remove(new ColorEntity() {Id = id}).Entity;
             _context.SaveChanges();
             return new Color()

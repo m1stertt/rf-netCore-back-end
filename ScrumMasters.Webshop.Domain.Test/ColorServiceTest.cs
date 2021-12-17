@@ -57,5 +57,79 @@ namespace ScrumMasters.Webshop.Domain.Test
             var actual = _service.GetColors();
             Assert.Equal(_expected, actual);
         }
+
+        [Fact]
+        public void CreateColorWithNullColor_returnsNull()
+        {
+            Color _expected = null;
+
+            _mock.Setup(r => r.Update(_expected))
+                .Returns((Color) null);
+            var actual = _service.Update(_expected);
+            Assert.Null(actual);
+        }
+
+        [Fact]
+        public void UpdateColorWithNullColor_returnsNull()
+        {
+            Color _expected = null;
+
+            _mock.Setup(r => r.Update(_expected))
+                .Returns((Color) null);
+            var actual = _service.Update(_expected);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void DeleteColorByIdWithIdZero_returnsNull()
+        {
+
+            _mock.Setup(r => r.DeleteById(0))
+                .Returns((Color) null);
+            var actual = _service.DeleteById(0);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void FindColorByIdWithIdZero_returnsNull()
+        {
+
+            _mock.Setup(r => r.FindById(0))
+                .Returns((Color) null);
+            var actual = _service.DeleteById(0);
+            Assert.Null(actual);
+        }
+        [Fact]
+        public void DeleteColorById_ReturnsColor()
+        {
+            Color _expected = new Color();
+            
+            _mock.Setup(r => r.DeleteById(1))
+                .Returns(_expected);
+            var actual = _service.DeleteById(1);
+            Assert.Equal(_expected, actual);
+        }
+        
+        [Fact]
+        public void UpdateColorWithColor_ReturnsColor()
+        {
+            Color _expected = new Color();
+            
+            _mock.Setup(r => r.Update(_expected))
+                .Returns(_expected);
+            var actual = _service.Update(_expected);
+            Assert.Equal(_expected, actual);
+        }
+        
+        [Fact]
+        public void CreateColorWithColor_ReturnsColor()
+        {
+            Color _expected = new Color();
+            
+            _mock.Setup(r => r.Create(_expected))
+                .Returns(_expected);
+            var actual = _service.Create(_expected);
+            Assert.Equal(_expected, actual);
+        }
     }
 }

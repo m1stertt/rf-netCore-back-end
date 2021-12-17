@@ -30,6 +30,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Size FindById(int id)
         {
+            if (id == 0) return null;
             return _context.Sizes.Select(pe => new Size()
             {
                 Id = pe.Id,
@@ -40,6 +41,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Size Create(Size size)
         {
+            if (size == null) return null;
             var entity = new SizeEntity()
             {
                 Title=size.Title,
@@ -56,6 +58,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Size Update(Size size)
         {
+            if (size == null) return null;
             var pe = _context.Update(new SizeEntity
             {
                 Id = size.Id,
@@ -71,6 +74,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Size DeleteById(int id)
         {
+            if (id == 0) return null;
             var savedEntity = _context.Sizes.Remove(new SizeEntity() {Id = id}).Entity;
             _context.SaveChanges();
             return new Size()

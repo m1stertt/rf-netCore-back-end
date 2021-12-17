@@ -56,5 +56,73 @@ namespace ScrumMasters.Webshop.Domain.Test
             var actual = _service.GetUserById(1);
             Assert.Equal(_expected, actual);
         }
+        
+        [Fact]
+        public void GetUser_WithIdZero_ReturnsNull()
+        {
+            _mock.Setup(r => r.GetUserById(0))
+                .Returns((User)null);
+            var actual = _service.GetUserById(0);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void DeleteUser_WithIdZero_ReturnsNull()
+        {
+            _mock.Setup(r => r.DeleteById(0))
+                .Returns((User)null);
+            var actual = _service.DeleteById(0);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void CreateUser_WithUserNull_ReturnsNull()
+        {
+            _mock.Setup(r => r.Create(_expected))
+                .Returns((User)null);
+            var actual = _service.Create(null);
+            Assert.Null(actual);
+        }
+        
+        [Fact]
+        public void UpdateUser_WithUserNull_ReturnsNull()
+        {
+            _mock.Setup(r => r.Create(_expected))
+                .Returns((User)null);
+            var actual = _service.Create(null);
+            Assert.Null(actual);
+        }
+        [Fact]
+        public void DeleteUserById_ReturnsUser()
+        {
+            User _expected = new User();
+            
+            _mock.Setup(r => r.DeleteById(1))
+                .Returns(_expected);
+            var actual = _service.DeleteById(1);
+            Assert.Equal(_expected, actual);
+        }
+        
+        [Fact]
+        public void UpdateUserWithUser_ReturnsUser()
+        {
+            User _expected = new User();
+            
+            _mock.Setup(r => r.Update(_expected))
+                .Returns(_expected);
+            var actual = _service.Update(_expected);
+            Assert.Equal(_expected, actual);
+        }
+        
+        [Fact]
+        public void CreateUserWithUser_ReturnsUser()
+        {
+            User _expected = new User();
+            
+            _mock.Setup(r => r.Create(_expected))
+                .Returns(_expected);
+            var actual = _service.Create(_expected);
+            Assert.Equal(_expected, actual);
+        }
     }
 }
