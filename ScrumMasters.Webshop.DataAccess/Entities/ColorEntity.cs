@@ -10,5 +10,6 @@ namespace ScrumMasters.Webshop.DataAccess.Entities
         
         public List<ProductEntity> Products { get; set; }
         public string ColorString { get; set; }
+        public List<InventoryStockEntity> InventoryStocks { get; set; }
     }
 }

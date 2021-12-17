@@ -88,6 +88,8 @@ namespace ScrumMasters.Webshop.WebAPI
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMainDbSeeder, MainDbSeeder>();
+            services.AddScoped<IInventoryStockService, InventoryStockService>();
+            services.AddScoped<IInventoryStockRepository, InventoryStockRepository>();
 
             // Dependency Injection for security.
             services.AddScoped<IAuthService, AuthService>();

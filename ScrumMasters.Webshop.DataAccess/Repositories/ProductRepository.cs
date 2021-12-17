@@ -10,7 +10,11 @@ using Size = ScrumMasters.Webshop.Core.Models.Size;
 using Color = ScrumMasters.Webshop.Core.Models.Color;
 
 namespace ScrumMasters.Webshop.DataAccess.Repositories
-{//https://github.com/dotnet/efcore/issues/22868
+{
+    
+    //https://github.com/dotnet/efcore/issues/22868
+    //In regards to the SQL warning, seems to be first fixed in EF core 6.0 according to this github issue.
+    //If we have the time, try to find a way around it for this version.
     public class ProductRepository : IProductRepository
     {
         private readonly MainDbContext _context;
