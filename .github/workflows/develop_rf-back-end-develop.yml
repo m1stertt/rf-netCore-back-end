@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'rf-backend-develop'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_6ca4f4be8861430bbbb659a4807a0488 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AE6CAE85280042CDA2051809B5490263 }}
           package: .
