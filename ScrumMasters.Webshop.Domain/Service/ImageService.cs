@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
@@ -20,9 +21,9 @@ namespace ScrumMasters.Webshop.Domain.Service
             return _imageRepository.GetById(id);
         }
 
-        public Image Create(Image image)
+        public Image Create(String path)
         {
-            return _imageRepository.Create(image);
+            return _imageRepository.Create(path);
         }
 
         public Image Update(Image image)
