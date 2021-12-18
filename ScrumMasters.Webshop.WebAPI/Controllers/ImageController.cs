@@ -35,7 +35,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_imageService.GetById(id));
         }
 
-        //[Authorize(Policy = nameof(CanManageProductsHandler))]
+        [Authorize(Policy = nameof(CanManageProductsHandler))]
         [HttpPost, DisableRequestSizeLimit]  
         public async Task<IActionResult> Post([FromForm] Image image)
         {

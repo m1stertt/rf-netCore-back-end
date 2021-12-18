@@ -16,41 +16,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             _context = ctx ?? throw new InvalidDataException("Product Repository Must have a DBContext");
         }
 
-        public List<InventoryStock> FindAll()
-        {
-            return _context.InventoryStock.Select(pe => new InventoryStock
-                {
-                    Id = pe.Id,
-                    Amount = pe.Amount,
-                    Product = new Product
-                    {
-                        Id = pe.Product.Id,
-                        ProductName = pe.Product.ProductName,
-                        Images = pe.Product.Images.Select(e =>new Image
-                        {
-                            Id = e.Id,
-                            Path = e.Path
-                        }).ToList(),
-                        ProductPrice = pe.Product.ProductPrice,
-                        ProductDiscountPrice = pe.Product.ProductDiscountPrice
-                        //@todo
-                    },
-                    Color = new Color
-                    {
-                        Id = pe.Color.Id,
-                        Title = pe.Color.Title,
-                        ColorString = pe.Color.ColorString,
-                        //@todo
-                    },
-                    Size = new Size
-                    {
-                        Id = pe.Color.Id,
-                        Title = pe.Color.Title
-                    }
-                })
-                .ToList();
-        }
-
         public InventoryStock FindById(int id)
         {
             return _context.InventoryStock
@@ -118,7 +83,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             throw new System.NotImplementedException();
         }
 
-        public List<InventoryStock> FindByProduct(Product product)
+        public List<InventoryStock> FindByProductId(int id)
         {
             return _context.InventoryStock.Select(pe => new InventoryStock
                 {
@@ -149,7 +114,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                         Id = pe.Color.Id,
                         Title = pe.Color.Title
                     }
-                }).Where(e=>e.Product.Id==product.Id)
+                }).Where(e=>e.Product.Id==id)
                 .ToList();
         }
     }

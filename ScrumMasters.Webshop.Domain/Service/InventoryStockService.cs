@@ -14,11 +14,6 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             _inventoryStockRepository = inventoryStockRepository ?? throw new InvalidDataException("InventoryStockRepository Cannot Be Null");
         }
-        
-        public List<InventoryStock> FindAll()
-        {
-           return _inventoryStockRepository.FindAll();
-        }
 
         public InventoryStock FindById(int id)
         {
@@ -40,9 +35,9 @@ namespace ScrumMasters.Webshop.Domain.Service
             return _inventoryStockRepository.DeleteById(id);
         }
 
-        public List<InventoryStock> FindByProduct(Product product)
+        public List<InventoryStock> FindByProductId(int id)
         {
-            return _inventoryStockRepository.FindByProduct(product);
+            return _inventoryStockRepository.FindByProductId(id);
         }
     }
 }

@@ -102,7 +102,7 @@ namespace ScrumMasters.Webshop.Domain.Test
         [Fact]
         public void DeleteImageById_ReturnsImage()
         {
-            Image _expected = new Image();
+            //Image _expected = new Image();
             
             _mock.Setup(r => r.DeleteById(1))
                 .Returns(_expected);
@@ -113,7 +113,7 @@ namespace ScrumMasters.Webshop.Domain.Test
         [Fact]
         public void UpdateImageWithImage_ReturnsImage()
         {
-            Image _expected = new Image();
+            //Image _expected = new Image();
             
             _mock.Setup(r => r.Update(_expected))
                 .Returns(_expected);

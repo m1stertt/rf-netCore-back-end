@@ -50,7 +50,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_sizeService.Create(size));
         }
         
-        //[Authorize(Policy = nameof(CanManageSizesHandler))]
+        [Authorize(Policy = nameof(CanManageSizesHandler))]
         [HttpPut("{id}")]  
         public ActionResult<Size> Update(int id, [FromBody] Size size)
         {
