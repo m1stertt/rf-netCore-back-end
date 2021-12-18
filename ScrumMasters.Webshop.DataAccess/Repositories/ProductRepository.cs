@@ -164,7 +164,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             _context.SaveChanges();
             return new Product()
             {
-                Id = product.Id,
+                Id = savedEntity.Id,
                 ProductName = savedEntity.ProductName,
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
