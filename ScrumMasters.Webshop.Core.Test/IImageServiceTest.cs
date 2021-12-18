@@ -29,8 +29,10 @@ namespace ScrumMasters.Webshop.Core.Test
             _expected = new Image
             {
                 Id = 1,
-                Title = "Image1"
-
+                Title = "Image1",
+                Path = "test.jpg",
+                Desc = "test",
+                Product = new Product{Id = 1}
             };
         }
 

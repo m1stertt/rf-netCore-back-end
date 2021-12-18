@@ -70,7 +70,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = image.Id,
                 Title = image.Title,
-                Path = image.Path,
                 Desc = image.Desc,
             }).Entity;
             _context.SaveChanges();
