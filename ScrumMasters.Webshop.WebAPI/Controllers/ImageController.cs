@@ -58,7 +58,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
-                return Ok(new { dbPath });
+                return Ok(_imageService.Create(dbPath));
 
             }
             catch (Exception ex)

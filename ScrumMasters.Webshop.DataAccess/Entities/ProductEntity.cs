@@ -23,9 +23,7 @@ namespace ScrumMasters.Webshop.DataAccess.Entities
         public List<ColorEntity> Colors { get; set; }
         public List<SizeEntity> Sizes { get; set; }
         public List<ImageEntity> Images { get; set; }
-        
         public List<OrderEntity> Orders { get; set; }
-        
         public List<InventoryStockEntity> InventoryStocks { get; set; }
     }
 }
