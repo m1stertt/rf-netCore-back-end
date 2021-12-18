@@ -7,7 +7,7 @@ namespace ScrumMasters.Webshop.Core.IServices
     public interface IImageService
     {
         Image GetById(int id);
-        Image Create(String path);
+        Image Create(Image image);
         Image Update(Image image);
         Image DeleteById(int id);
     }

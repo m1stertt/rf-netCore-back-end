@@ -7,7 +7,7 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
     public interface IImageRepository
     {
         Image GetById(int id);
-        Image Create(String path);
+        Image Create(Image image);
         Image Update(Image image);
         Image DeleteById(int id);
     }
