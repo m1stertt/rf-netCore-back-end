@@ -87,6 +87,29 @@ namespace ScrumMasters.Webshop.Domain.Test
                 var actual = _service.GetProductById(1);
                 Assert.Equal(mock, actual);
             }
+            
+            [Fact]
+            public void GetFeaturedProducts_ReturnsFeaturedProducts()
+            {
+                List<Product> mock = new List<Product>();
+                _mock.Setup(r => r.GetFeaturedProducts())
+                    .Returns(mock);
+                var actual = _service.GetFeaturedProducts();
+                Assert.Equal(mock, actual);
+            }
+            
+            [Fact]
+            public void GetPagedCategoryProducts_ReturnsProducts()
+            {
+                var ints = new int[] {1, 2};
+                List<Product> mock = new List<Product>();
+                CategoriesPaginationParameters productPaginationParameters = new CategoriesPaginationParameters();
+                PagedCategoryProductList<Product> pagedCategoryProductList = new PagedCategoryProductList<Product>(mock, 2, 5, 5,1, ints);
+                _mock.Setup(r => r.GetPagedCategoriesProductList(productPaginationParameters))
+                    .Returns(pagedCategoryProductList);
+                var actual = _service.GetPagedCategoryProducts(productPaginationParameters);
+                Assert.Equal(mock, actual);
+            }
         
             [Fact]
             public void GetProduct_WithIdZero_ReturnsNull()

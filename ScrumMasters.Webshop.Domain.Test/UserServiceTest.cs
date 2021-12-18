@@ -124,5 +124,16 @@ namespace ScrumMasters.Webshop.Domain.Test
             var actual = _service.Create(_expected);
             Assert.Equal(_expected, actual);
         }
+        
+        [Fact]
+        public void CheckUserWithEmail_ReturnsTrue()
+        {
+            var mock = "test@test.dk";
+            
+            _mock.Setup(r => r.CheckByEmail(mock))
+                .Returns(true);
+            var actual = _service.CheckUserByEmail(mock);
+            Assert.True(actual);
+        }
     }
 }

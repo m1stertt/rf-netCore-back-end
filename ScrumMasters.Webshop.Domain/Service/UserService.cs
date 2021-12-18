@@ -30,11 +30,6 @@ namespace ScrumMasters.Webshop.Domain.Service
             return _UserRepository.Create(User);
         }
 
-        public bool GetUserById(string id)
-        {
-            return _UserRepository.CheckByEmail(id);
-        }
-
         public User Update(User User)
         {
             return _UserRepository.Update(User);

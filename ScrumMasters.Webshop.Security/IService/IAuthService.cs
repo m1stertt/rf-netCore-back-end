@@ -15,7 +15,7 @@ namespace ScrumMasters.Webshop.Security
         }
 
         List<Permission> GetPermissions(int userId);
-        LoginUser RegisterUser(UserDetails userDetails);
+        LoginUser CreateLoginUser(UserDetails userDetails);
         
     }
     
