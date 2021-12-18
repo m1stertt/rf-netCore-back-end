@@ -32,7 +32,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     ProductName = pe.ProductName,
                     ProductPrice = pe.ProductPrice,
                     ProductDescription = pe.ProductDescription,
-                    ProductImageUrl = pe.ProductImageUrl,
                     ProductFeatured = pe.ProductFeatured,
                     ProductDiscountPrice = pe.ProductDiscountPrice,
                     Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
@@ -61,7 +60,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     ProductName = pe.ProductName,
                     ProductPrice = pe.ProductPrice,
                     ProductDescription = pe.ProductDescription,
-                    ProductImageUrl = pe.ProductImageUrl,
                     ProductFeatured = pe.ProductFeatured,
                     Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
                     Sizes = pe.Sizes.Select(px=>new Size{Id = px.Id,Title = px.Title}).ToList(),
@@ -138,7 +136,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = pe.ProductName,
                 ProductPrice = pe.ProductPrice,
                 ProductDescription = pe.ProductDescription,
-                ProductImageUrl = pe.ProductImageUrl,
                 ProductFeatured = pe.ProductFeatured,
                 ProductDiscountPrice = pe.ProductDiscountPrice,
                 Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
@@ -156,7 +153,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = product.ProductName,
                 ProductPrice = product.ProductPrice,
                 ProductDescription = product.ProductDescription,
-                ProductImageUrl = product.ProductImageUrl,
                 ProductDiscountPrice = product.ProductDiscountPrice,
                 ProductFeatured = product.ProductFeatured,
             };
@@ -168,7 +164,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = savedEntity.ProductName,
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
-                ProductImageUrl = savedEntity.ProductImageUrl,
                 ProductFeatured = savedEntity.ProductFeatured,
                 ProductDiscountPrice = savedEntity.ProductDiscountPrice,
             };
@@ -183,7 +178,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             edit.ProductName = product.ProductName;
             edit.ProductPrice = product.ProductPrice;
             edit.ProductDescription = product.ProductDescription;
-            edit.ProductImageUrl = product.ProductImageUrl;
             edit.ProductFeatured = product.ProductFeatured;
             edit.ProductDiscountPrice = product.ProductDiscountPrice;
             edit.Categories = product.Categories.Select(px =>_context.Categories.Single(pe=>px.Id==pe.Id)).ToList();
@@ -203,7 +197,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = savedEntity.ProductName,
                 ProductPrice = savedEntity.ProductPrice,
                 ProductDescription = savedEntity.ProductDescription,
-                ProductImageUrl = savedEntity.ProductImageUrl,
                 ProductFeatured = savedEntity.ProductFeatured,
                 ProductDiscountPrice = savedEntity.ProductDiscountPrice,
             };
@@ -217,7 +210,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ProductName = pe.ProductName,
                 ProductPrice = pe.ProductPrice,
                 ProductDescription = pe.ProductDescription,
-                ProductImageUrl = pe.ProductImageUrl,
                 ProductFeatured = pe.ProductFeatured,
                 ProductDiscountPrice = pe.ProductDiscountPrice,
                 Categories = pe.Categories.Select(px=>new Category{Id = px.Id,Name = px.Name}).ToList(),
