@@ -51,14 +51,12 @@ namespace ScrumMasters.Webshop.DataAccess
                 ImageEntity ie1 = new ImageEntity
                 {
                     Title = "Some title",
-                    Tags = "Some, Tags, Hey, World",
                     Path = "test2.jpg",
                     Desc = "Some description",
                 };
                 
                 ImageEntity ie2 = new ImageEntity {
                     Title = "Some title34",
-                    Tags = "Some, Tags, Hey34, World",
                     Path = "test1.jpg",
                     Desc = "Some description34",
                 };
@@ -66,7 +64,6 @@ namespace ScrumMasters.Webshop.DataAccess
                 ImageEntity ie3 = new ImageEntity
                 {
                     Title = "Some title",
-                    Tags = "Some, Tags, Hey, World",
                     Path = "billed1.jpg",
                     Desc = "Some description",
                 };
@@ -74,7 +71,6 @@ namespace ScrumMasters.Webshop.DataAccess
                 ImageEntity ie4 = new ImageEntity
                 {
                     Title = "Some title",
-                    Tags = "Some, Tags, Hey, World",
                     Path = "billed2.jpg",
                     Desc = "Some description",
                 };

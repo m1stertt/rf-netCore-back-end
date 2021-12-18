@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using ScrumMasters.Webshop.Core.Models;
+using ScrumMasters.Webshop.DataAccess.Entities;
 using ScrumMasters.Webshop.Domain.IRepositories;
 
 namespace ScrumMasters.Webshop.DataAccess.Repositories
@@ -87,7 +88,24 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public InventoryStock Create(InventoryStock inventoryStock)
         {
-            throw new System.NotImplementedException();
+            var invStockEntity = new InventoryStockEntity()
+            {
+                Id = inventoryStock.Id,
+                Amount = inventoryStock.Amount,
+                //Product = inventoryStock.Product,
+                //Color = inventoryStock.Color,
+                //Size = inventoryStock.Size
+            };
+            var savedEntity = _context.InventoryStock.Add(invStockEntity).Entity;
+            _context.SaveChanges();
+            return new InventoryStock()
+            {
+                Id = savedEntity.Id,
+                Amount = savedEntity.Amount,
+                //Product = savedEntity.Product,
+                //Color = savedEntity.Color,
+                //Size = savedEntity.Size,
+            };
         }
 
         public InventoryStock Update(InventoryStock inventoryStock)

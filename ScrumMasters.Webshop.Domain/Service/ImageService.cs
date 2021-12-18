@@ -23,7 +23,7 @@ namespace ScrumMasters.Webshop.Domain.Service
 
         public Image Create(Image image)
         {
-            return _imageRepository.Create(new Image()); //@todo
+            return _imageRepository.Create(image);
         }
 
         public Image Update(Image image)

@@ -22,8 +22,10 @@ namespace ScrumMasters.Webshop.Domain.Test
             _expected = new Image
             {
                 Id = 1,
-                Title = "Image1"
-
+                Title = "Image1",
+                Path = "test.jpg",
+                Desc = "test",
+                Product = new Product{Id = 1}
             };
         }
 
@@ -122,7 +124,7 @@ namespace ScrumMasters.Webshop.Domain.Test
         [Fact]
         public void CreateImageWithImage_ReturnsImage()
         {
-            Image _expected = new Image();
+            //Image _expected = new Image();
             
             _mock.Setup(r => r.Create(_expected))
                 .Returns(_expected);
