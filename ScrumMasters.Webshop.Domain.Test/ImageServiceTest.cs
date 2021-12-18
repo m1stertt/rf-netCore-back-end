@@ -28,7 +28,7 @@ namespace ScrumMasters.Webshop.Domain.Test
         }
 
         [Fact]
-        public void ImagesService_IsIImageservice()
+        public void ImagesService_IsIImageService()
         {
             Assert.True(_service is IImageService);
         }

@@ -15,7 +15,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             throw new System.NotImplementedException();
         }
 
-        public Image Create(String path)
+        public Image Create(Image image)
         {
             throw new System.NotImplementedException();
         }

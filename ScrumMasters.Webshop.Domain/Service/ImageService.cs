@@ -21,9 +21,9 @@ namespace ScrumMasters.Webshop.Domain.Service
             return _imageRepository.GetById(id);
         }
 
-        public Image Create(String path)
+        public Image Create(Image image)
         {
-            return _imageRepository.Create(path);
+            return _imageRepository.Create(new Image()); //@todo
         }
 
         public Image Update(Image image)
