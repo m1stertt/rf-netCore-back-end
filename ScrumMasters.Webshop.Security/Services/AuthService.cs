@@ -99,7 +99,7 @@ namespace ScrumMasters.Webshop.Security.Services
             return _authRepository.GetPermissions(userId);
         }
 
-        public LoginUser RegisterUser(UserDetails userDetails)
+        public LoginUser CreateLoginUser(UserDetails userDetails)
         {
             CreateHashAndSalt(userDetails.Password, out var passwordHash, out var salt);
             var createdEntity = new LoginUser()

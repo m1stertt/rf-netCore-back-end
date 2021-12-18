@@ -47,9 +47,56 @@ namespace TeScrumMasters.Webshop.DataAccess.Test
                 Email = "test@test.dk",
                 Password = "password"
             };
-            var fakeUser = _service.RegisterUser(fakeUserDetails);
+            var fakeUser = _service.CreateLoginUser(fakeUserDetails);
             Assert.NotNull(fakeUser);
 
+        }
+        
+        [Fact]
+        public void UserExistsWithUserDetails_ReturnsTrue()
+        {
+            var fakeUserDetails = new UserDetails
+            {
+                Email = "test@test.dk",
+                Password = "password"
+            };
+            _mock.Setup(r => r.UserExists(fakeUserDetails))
+                .Returns(true);
+            var fakeUser = _service.UserExists(fakeUserDetails);
+            Assert.True(fakeUser);
+
+        }
+        
+        [Fact]
+        public void IsValidUSerInformationOnLoginUser_ReturnsLoginUser()
+        {
+            var fakeToken = "123.456.789";
+            var mock = new LoginUser()
+            {
+                Email = "test@test.dk",
+            };
+
+            _service.GenerateJwtToken(mock);
+            _mock.Verify(repository => repository.IsValidUserInformation(mock), Times.Once);
+            
+        }
+        
+        [Fact]
+        public void VerifyLogin_CallsVerifyLoginUserOnce()
+        {
+            _service.VerifyLogin("test", "test");
+            _mock.Verify(repository => repository.VerifyLoginUser("test"), Times.Once);
+            _mock.Verify(repository => repository.VerifyLoginUser("test"), Times.Once);
+        }
+        
+        [Fact]
+        public void GetPermissionsWithId_ReturnsListOfPermissions()
+        {
+            var fakePermissionsList = new List<Permission>();
+            _mock.Setup(r => r.GetPermissions(1))
+                .Returns(fakePermissionsList);
+            var actual = _service.GetPermissions(1);
+            Assert.Equal(fakePermissionsList, actual);
         }
     }
 }

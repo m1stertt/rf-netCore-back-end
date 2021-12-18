@@ -57,6 +57,16 @@ namespace ScrumMasters.Webshop.Domain.Test
             var actual = _service.GetColors();
             Assert.Equal(_expected, actual);
         }
+        
+        [Fact]
+        public void GetColorById_ReturnsColor()
+        {
+            Color _expected = new Color();
+            _mock.Setup(r => r.FindById(1))
+                .Returns(_expected);
+            var actual = _service.GetColorById(1);
+            Assert.Equal(_expected, actual);
+        }
 
         [Fact]
         public void CreateColorWithNullColor_returnsNull()

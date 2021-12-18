@@ -67,7 +67,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
 
             if (!_authService.UserExists(userDetails))
             {
-                _authService.RegisterUser(userDetails);
+                _authService.CreateLoginUser(userDetails);
                 return Ok();
             }
 
