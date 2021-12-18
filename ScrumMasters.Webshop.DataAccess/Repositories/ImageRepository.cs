@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ScrumMasters.Webshop.Core.Models;
 using ScrumMasters.Webshop.DataAccess.Entities;
 using ScrumMasters.Webshop.Domain.IRepositories;
@@ -20,7 +21,24 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Image GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Images.Select(pe => new Image()
+            {
+                Id = pe.Id,
+                Desc = pe.Desc,
+                Path = pe.Path,
+                Title = pe.Title
+            }).FirstOrDefault(image => image.Id == id);
+        }
+
+        public List<Image> GetByProductId(int id)
+        {
+            return _context.Images.Select(pe => new Image()
+            {
+                Id = pe.Id,
+                Desc = pe.Desc,
+                Path = pe.Path,
+                Title = pe.Title
+            }).Where(image => image.Product.Id == id).ToList();
         }
 
         public Image Create(Image image)

@@ -6,6 +6,7 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
     public interface IColorRepository
     {
         List<Color> FindAll();
+        List<Color> GetByProductId(int id);
         Color FindById(int id);
         Color Create(Color color);
         Color Update(Color color);

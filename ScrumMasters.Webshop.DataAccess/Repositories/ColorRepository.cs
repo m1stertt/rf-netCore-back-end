@@ -39,6 +39,16 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 ColorString = pe.ColorString
             }).FirstOrDefault(color => color.Id == id);
         }
+        
+        public List<Color> GetByProductId(int id)
+        {
+            return _context.Colors.Select(pe => new Color()
+            {
+                Id = pe.Id,
+                Title = pe.Title,
+                ColorString = pe.ColorString,
+            }).Where(image => image.Products.Exists((product)=>product.Id==id)).ToList();
+        }
 
         public Color Create(Color color)
         {

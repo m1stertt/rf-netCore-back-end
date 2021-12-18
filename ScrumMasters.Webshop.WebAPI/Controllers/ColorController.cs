@@ -38,6 +38,16 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_colorService.GetColorById(id));
         }
         
+        [HttpGet("Product/{id:int}")]
+        public ActionResult<Color> GetByProductId(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("An ID is required to find a color by it's ID in the repository.");
+            }
+            return Ok(_colorService.GetColorById(id));
+        }
+        
         
         [Authorize(Policy = nameof(CanManageColorsHandler))]
         [HttpPost]  
