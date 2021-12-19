@@ -10,5 +10,6 @@ namespace ScrumMasters.Webshop.Domain.IRepositories
         Image Create(Image image);
         Image Update(Image image);
         Image DeleteById(int id);
+        List<Image> GetByProductId(int id);
     }
 }

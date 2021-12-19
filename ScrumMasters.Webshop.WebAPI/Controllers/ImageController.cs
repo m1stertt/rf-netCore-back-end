@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -34,13 +33,25 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
 
             return Ok(_imageService.GetById(id));
         }
+        
+        [HttpGet("Product/{id:int}")]
+        public ActionResult<Image> GetByProductId(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest("An ID is required to find a image by it's ID in the repository.");
+            }
+
+            return Ok(_imageService.GetByProductId(id));
+        }
 
         [Authorize(Policy = nameof(CanManageProductsHandler))]
-        [HttpPost, DisableRequestSizeLimit]  
-        public async Task<IActionResult> Post([FromForm] Image image)
+        [HttpPost("{id:int}"), DisableRequestSizeLimit]  
+        public async Task<IActionResult> Post(int id)
         {
+            Console.WriteLine(id);
             try
-            {
+            { 
                 var formCollection = await Request.ReadFormAsync();
                 var file = formCollection.Files.First();
                 //var file = Request.Form.Files[0];
@@ -53,12 +64,11 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
                 var fileName = $@"{Guid.NewGuid()}" +ext;
                 var fullPath = Path.Combine(pathToSave, fileName);
                 var dbPath = Path.Combine(folderName, fileName);
-                //@todo sql part
                 await using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
-                return Ok(_imageService.Create(new Image{Path=dbPath,Title = fileName,Desc = fileName}));
+                return Ok(_imageService.Create(new Image{Path=fileName,Title = fileName,Desc = fileName,Product = new Product{Id = id}}));
 
             }
             catch (Exception ex)
