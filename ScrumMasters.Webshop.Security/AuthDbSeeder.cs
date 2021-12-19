@@ -6,14 +6,11 @@ namespace ScrumMasters.Webshop.Security
     public class AuthDbSeeder : IAuthDbSeeder
     {
         private readonly AuthDbContext authDbContext;
-        private readonly IAuthService _authService;
 
         public AuthDbSeeder(
-            AuthDbContext ctx,
-            IAuthService authService)
+            AuthDbContext ctx)
         {
             authDbContext = ctx;
-            _authService = authService;
         }
 
         public void SeedDevelopment()
@@ -66,6 +63,7 @@ namespace ScrumMasters.Webshop.Security
         {
             // For now. Should be fixed for production ready code.
             authDbContext.Database.EnsureDeleted();
+            
             authDbContext.Database.EnsureCreated();
             AuthService.CreateHashAndSalt("123456", out var passwordHash, out var salt);
 
