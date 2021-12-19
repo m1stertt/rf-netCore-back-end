@@ -21,6 +21,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Image GetById(int id)
         {
+            if (id <= 0) return null;
             return _context.Images.Select(pe => new Image()
             {
                 Id = pe.Id,
@@ -32,6 +33,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public List<Image> GetByProductId(int id)
         {
+            if (id <= 0) return null;
             return _context.Images.Select(pe => new Image()
             {
                 Id = pe.Id,
@@ -85,7 +87,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Image DeleteById(int id)
         {
-            if (id == 0) return null;
+            if (id <= 0) return null;
             var savedEntity = _context.Images.Remove(new ImageEntity() {Id = id}).Entity;
             _context.SaveChanges();
             return new Image()
