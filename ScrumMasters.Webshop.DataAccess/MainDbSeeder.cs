@@ -52,27 +52,23 @@ namespace ScrumMasters.Webshop.DataAccess
                 {
                     Title = "Some title",
                     Path = "test2.jpg",
-                    Desc = "Some description",
                 };
                 
                 ImageEntity ie2 = new ImageEntity {
                     Title = "Some title34",
                     Path = "test1.jpg",
-                    Desc = "Some description34",
                 };
                 
                 ImageEntity ie3 = new ImageEntity
                 {
                     Title = "Some title",
                     Path = "billed1.jpg",
-                    Desc = "Some description",
                 };
                 
                 ImageEntity ie4 = new ImageEntity
                 {
                     Title = "Some title",
                     Path = "billed2.jpg",
-                    Desc = "Some description",
                 };
                 
                 pe1.Categories.Add(ce1);

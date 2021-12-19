@@ -46,9 +46,6 @@ namespace ScrumMasters.Webshop.Security
             }, new Permission()
             {
                 Name = "CanManageCategories"
-            }, new Permission()
-            {
-                Name = "CanManageAccount"
             }, new Permission
             {
                 Name = "CanManageColors"
@@ -57,11 +54,11 @@ namespace ScrumMasters.Webshop.Security
                 Name = "CanManageSizes"
             });
             authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 1, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 5, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 6, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 2});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
+            //authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
+            //authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 1});
+            //authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 1});
+            //authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 5, UserId = 1});
+            //authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
             authDbContext.SaveChanges();
         }
 
@@ -96,9 +93,6 @@ namespace ScrumMasters.Webshop.Security
             }, new Permission()
             {
                 Name = "CanManageCategories"
-            }, new Permission()
-            {
-                Name = "CanManageAccount"
             }, new Permission
             {
                 Name = "CanManageColors"
@@ -107,11 +101,7 @@ namespace ScrumMasters.Webshop.Security
                 Name = "CanManageSizes"
             });
             authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 1, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 5, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 6, UserId = 1});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 2});
-            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
+            //authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
             authDbContext.SaveChanges();
         }
     }

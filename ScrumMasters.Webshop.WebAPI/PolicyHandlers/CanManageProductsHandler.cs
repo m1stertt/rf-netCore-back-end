@@ -18,7 +18,7 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
             {
                 var authService = defaultContext.HttpContext.RequestServices.GetRequiredService<IAuthService>();
                 var permissions = authService.GetPermissions(user.Id);
-                if (permissions.Exists(p => p.Name.Equals("CanManageProducts")))
+                if (permissions.Exists(p => p.Name.Equals("CanManageProducts")||p.Name.Equals("Admin")))
                 {
                     context.Succeed(handler);
                 }
