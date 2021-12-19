@@ -24,7 +24,7 @@ namespace ScrumMasters.Webshop.Security
 
             authDbContext.LoginUsers.Add(new LoginUser
             {
-                Email = "ljuul@ljuul.dk",
+                Email = "admin@admin.dk",
                 HashedPassword = passwordHash,
                 PasswordSalt = salt,
                 DbUserId = 1,
@@ -32,7 +32,7 @@ namespace ScrumMasters.Webshop.Security
             AuthService.CreateHashAndSalt("123456", out passwordHash, out salt);
             authDbContext.LoginUsers.Add(new LoginUser
             {
-                Email = "ljuul2@ljuul.dk",
+                Email = "user@user.dk",
                 HashedPassword = passwordHash,
                 PasswordSalt = salt,
                 DbUserId = 2,
@@ -67,7 +67,45 @@ namespace ScrumMasters.Webshop.Security
 
         public void SeedProduction()
         {
+            // For now. Should be fixed for production ready code.
+            authDbContext.Database.EnsureDeleted();
+            
             authDbContext.Database.EnsureCreated();
+            AuthService.CreateHashAndSalt("123456", out var passwordHash, out var salt);
+
+            authDbContext.LoginUsers.Add(new LoginUser
+            {
+                Email = "admin@admin.dk",
+                HashedPassword = passwordHash,
+                PasswordSalt = salt,
+                DbUserId = 1,
+            });
+            authDbContext.Permissions.AddRange(new Permission()
+            {
+                Name = "Admin"
+            }, new Permission()
+            {
+                Name = "CanManageProducts"
+            }, new Permission()
+            {
+                Name = "CanManageCategories"
+            }, new Permission()
+            {
+                Name = "CanManageAccount"
+            }, new Permission
+            {
+                Name = "CanManageColors"
+            },new Permission
+            {
+                Name = "CanManageSizes"
+            });
+            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 1, UserId = 1});
+            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 2, UserId = 1});
+            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 5, UserId = 1});
+            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 6, UserId = 1});
+            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 3, UserId = 2});
+            authDbContext.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = 2});
+            authDbContext.SaveChanges();
 
         }
     }
