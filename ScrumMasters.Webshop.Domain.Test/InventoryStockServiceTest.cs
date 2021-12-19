@@ -24,7 +24,8 @@ namespace ScrumMasters.Webshop.Domain.Test
                 Id = 1,
                 Color = new Color{Id = 1},
                 Amount = 4,
-                Product = new Product{Id = 1}
+                Product = new Product{Id = 1},
+                Size = new Size{Id = 1}
             };
         }
 
