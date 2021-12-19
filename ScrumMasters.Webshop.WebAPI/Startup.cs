@@ -153,7 +153,7 @@ namespace ScrumMasters.Webshop.WebAPI
                 options.AddPolicy("Production-cors", prodPolicy =>
                 {
                     prodPolicy
-                        .WithOrigins("https://ruds-fashion2021.azurewebsites.net/")
+                        .WithOrigins("https://rf-frontend-develop.azurewebsites.net")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .WithExposedHeaders("X-Pagination");
