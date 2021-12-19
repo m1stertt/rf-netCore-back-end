@@ -34,13 +34,13 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
         public List<Image> GetByProductId(int id)
         {
             if (id <= 0) return null;
-            return _context.Images.Select(pe => new Image()
+            return _context.Images.Where(image => image.Product.Id == id).Select(pe => new Image()
             {
                 Id = pe.Id,
                 Desc = pe.Desc,
                 Path = pe.Path,
                 Title = pe.Title
-            }).Where(image => image.Product.Id == id).ToList();
+            }).ToList();
         }
 
         public Image Create(Image image)
@@ -51,7 +51,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 Title = image.Title,
                 Path = image.Path,
                 Desc = image.Desc,
-                Product = new ProductEntity{ Id = image.Product.Id}
+                Product = _context.Products.FirstOrDefault(r => r.Id == image.Product.Id)
             };
             var savedEntity = _context.Images.Add(imageEntity).Entity;
             _context.SaveChanges();

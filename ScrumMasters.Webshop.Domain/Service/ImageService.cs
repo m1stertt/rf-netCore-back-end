@@ -35,5 +35,10 @@ namespace ScrumMasters.Webshop.Domain.Service
         {
             return _imageRepository.DeleteById(id);
         }
+
+        public List<Image> GetByProductId(int id)
+        {
+            return _imageRepository.GetByProductId(id);
+        }
     }
 }
