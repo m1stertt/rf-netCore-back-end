@@ -116,29 +116,23 @@ namespace ScrumMasters.Webshop.WebAPI
                             Encoding.UTF8.GetBytes(Configuration["JwtConfig:Secret"]))
                 };
             });
-            services.AddSingleton<IAuthorizationHandler, AdminHandler>();
-            services.AddSingleton<IAuthorizationHandler, CanManageAccountHandler>();
             services.AddSingleton<IAuthorizationHandler, CanManageCategoriesHandler>();
             services.AddSingleton<IAuthorizationHandler, CanManageProductsHandler>();
-            services.AddSingleton<IAuthorizationHandler, CanManageUsersHandler>();
             services.AddSingleton<IAuthorizationHandler, CanManageSizesHandler>();
             services.AddSingleton<IAuthorizationHandler, CanManageColorsHandler>();
+            services.AddSingleton<IAuthorizationHandler, IsLoggedInHandler>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(nameof(AdminHandler),
-                    policy => policy.Requirements.Add(new AdminHandler()));
                 options.AddPolicy(nameof(CanManageCategoriesHandler),
                     policy => policy.Requirements.Add(new CanManageCategoriesHandler()));
                 options.AddPolicy(nameof(CanManageProductsHandler),
                     policy => policy.Requirements.Add(new CanManageProductsHandler()));
-                options.AddPolicy(nameof(CanManageUsersHandler),
-                    policy => policy.Requirements.Add(new CanManageUsersHandler()));
                 options.AddPolicy(nameof(CanManageSizesHandler),
                     policy => policy.Requirements.Add(new CanManageSizesHandler()));
                 options.AddPolicy(nameof(CanManageColorsHandler),
                     policy => policy.Requirements.Add(new CanManageColorsHandler()));
-                options.AddPolicy(nameof(CanManageAccountHandler),
-                    policy => policy.Requirements.Add(new CanManageAccountHandler()));
+                options.AddPolicy(nameof(IsLoggedInHandler),
+                    policy => policy.Requirements.Add(new IsLoggedInHandler()));
             });
             services.AddCors(options =>
             {
