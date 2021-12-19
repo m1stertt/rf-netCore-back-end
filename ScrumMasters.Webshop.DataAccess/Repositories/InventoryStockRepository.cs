@@ -27,26 +27,19 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     {
                         Id = pe.Product.Id,
                         ProductName = pe.Product.ProductName,
-                        Images = pe.Product.Images.Select(e =>new Image
-                        {
-                            Id = e.Id,
-                            Path = e.Path
-                        }).ToList(),
                         ProductPrice = pe.Product.ProductPrice,
                         ProductDiscountPrice = pe.Product.ProductDiscountPrice
-                        //@todo
                     },
                     Color = new Color
                     {
                         Id = pe.Color.Id,
                         Title = pe.Color.Title,
                         ColorString = pe.Color.ColorString,
-                        //@todo
                     },
                     Size = new Size
                     {
-                        Id = pe.Color.Id,
-                        Title = pe.Color.Title
+                        Id = pe.Size.Id,
+                        Title = pe.Size.Title
                     }
                 }).FirstOrDefault(e => e.Id==id);
         }
@@ -58,38 +51,84 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 Id = inventoryStock.Id,
                 Amount = inventoryStock.Amount,
             };
-            if (inventoryStock.Product.Id>0)
+            if (inventoryStock.Product.Id > 0)
             {
-                invStockEntity.Product = new ProductEntity {Id = inventoryStock.Product.Id};
+                invStockEntity.Product = _context.Products.FirstOrDefault(r => r.Id == inventoryStock.Product.Id);
             }
+            else return null;
             if (inventoryStock.Color.Id>0)
             {
-                invStockEntity.Color = new ColorEntity {Id = inventoryStock.Color.Id};
+                invStockEntity.Color = _context.Colors.FirstOrDefault(r=>r.Id==inventoryStock.Color.Id);
             }
             if (inventoryStock.Size.Id!=0)
             {
-                invStockEntity.Size = new SizeEntity {Id = inventoryStock.Size.Id};
+                invStockEntity.Size = _context.Sizes.FirstOrDefault(r=>r.Id==inventoryStock.Size.Id);
             }
-            var savedEntity = _context.InventoryStock.Add(invStockEntity).Entity;
+            var pe = _context.InventoryStock.Add(invStockEntity).Entity;
             _context.SaveChanges();
             return new InventoryStock()
             {
-                Id = savedEntity.Id,
-                Amount = savedEntity.Amount,
-                //Product = savedEntity.Product,
-                //Color = savedEntity.Color,
-                //Size = savedEntity.Size,
+                Id = pe.Id,
+                Amount = pe.Amount,
+                Product = new Product
+                {
+                    Id = pe.Product.Id,
+                },
+                Color = new Color
+                {
+                    Id = pe.Color.Id,
+                    Title = pe.Color.Title,
+                    ColorString = pe.Color.ColorString,
+                },
+                Size = new Size
+                {
+                    Id = pe.Size.Id,
+                    Title = pe.Size.Title
+                }
             };
         }
 
         public InventoryStock Update(InventoryStock inventoryStock)
         {
-            throw new System.NotImplementedException(); //@todo
+            if (inventoryStock == null) return null;
+            var savedEntity = _context.Update(new InventoryStockEntity()
+            {
+                Id = inventoryStock.Id,
+                Amount = inventoryStock.Amount,
+            }).Entity;
+            _context.SaveChanges();
+            return new InventoryStock()
+            {
+                Id = savedEntity.Id,
+                Amount = savedEntity.Amount,
+            };
         }
 
         public InventoryStock DeleteById(int id)
         {
-            throw new System.NotImplementedException(); //@todo
+            if (id <= 0) return null;
+            var pe = _context.InventoryStock.Remove(new InventoryStockEntity() {Id = id}).Entity;
+            _context.SaveChanges();
+            return new InventoryStock()
+            {
+                Id = pe.Id,
+                Amount = pe.Amount,
+                Product = new Product
+                {
+                    Id = pe.Product.Id,
+                },
+                Color = new Color
+                {
+                    Id = pe.Color.Id,
+                    Title = pe.Color.Title,
+                    ColorString = pe.Color.ColorString,
+                },
+                Size = new Size
+                {
+                    Id = pe.Size.Id,
+                    Title = pe.Size.Title
+                }
+            };
         }
 
         public List<InventoryStock> FindByProductId(int id)
@@ -110,8 +149,8 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                     },
                     Size = new Size
                     {
-                        Id = pe.Color.Id,
-                        Title = pe.Color.Title
+                        Id = pe.Size.Id,
+                        Title = pe.Size.Title
                     }
                 }).Where(e=>e.Product.Id==id)
                 .ToList();
