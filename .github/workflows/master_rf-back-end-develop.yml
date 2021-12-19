@@ -3,7 +3,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - rf-back-end-master
 on:
   push:
     branches:
-      - develop
+      - master
   workflow_dispatch:
 
 jobs:
