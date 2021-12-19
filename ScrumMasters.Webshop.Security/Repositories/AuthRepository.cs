@@ -56,7 +56,6 @@ namespace ScrumMasters.Webshop.Security
         public void SaveUser(LoginUser userEntity)
         {
             var savedEntity = _ctx.LoginUsers.Add(userEntity).Entity;
-            _ctx.UserPermissions.Add(new UserPermission {PermissionId = 4, UserId = savedEntity.Id, User = savedEntity});
             _ctx.SaveChanges();
         }
     }

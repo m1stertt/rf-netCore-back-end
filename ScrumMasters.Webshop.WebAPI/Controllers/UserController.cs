@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScrumMasters.Webshop.Core.IServices;
 using ScrumMasters.Webshop.Core.Models;
+using ScrumMasters.Webshop.Security.Model;
 using ScrumMasters.Webshop.WebAPI.PolicyHandlers;
 
 namespace ScrumMasters.Webshop.WebAPI.Controllers
@@ -19,6 +20,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             _userService = userService ?? throw new InvalidDataException("UserService Cannot Be Null.");
         }
         
+        [Authorize(Policy = nameof(IsLoggedInHandler))]
         [HttpGet("{id:int}")]
         public ActionResult<User> GetById(int id)
         {
@@ -35,10 +37,11 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return StatusCode(404, "User not found.");
         }
 
-        [Authorize(Policy = nameof(CanManageAccountHandler))]
+        [Authorize(Policy = nameof(IsLoggedInHandler))]
         [HttpPost]  
         public ActionResult<User> Post([FromBody] User newUser)
         {
+
             if (newUser == null)
             {
                 return BadRequest("A user is required before creating a user in the repository.");
@@ -52,10 +55,11 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return StatusCode(403, "User already exist.");
         }
 
-        [Authorize(Policy = nameof(CanManageAccountHandler))]
+        [Authorize(Policy = nameof(IsLoggedInHandler))]
         [HttpPut("{id}")]  
         public ActionResult<User> Update(int id, [FromBody] User newUser)
         {
+            
             if (id < 1 || id != newUser.Id)
             {
                 return BadRequest("Correct id is needed to update a user in the repository.");
@@ -64,15 +68,16 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_userService.Update(newUser));
         }
 
-        [Authorize(Policy = nameof(CanManageAccountHandler))]
-        [HttpDelete("{id:int}")]
-        public ActionResult<User> DeleteById(int id)
+        [Authorize(Policy = nameof(IsLoggedInHandler))]
+        [HttpDelete]
+        public ActionResult<User> Delete()
         {
-            if (id == 0)
+            var user = HttpContext.Items["LoginUser"] as LoginUser;
+            if (user == null)
             {
-                return BadRequest("An ID is required to delete user by id.");
+                return BadRequest("You need to be logged in to do this delete request.");
             }
-            return Ok(_userService.DeleteById(id));
+            return Ok(_userService.DeleteById(user.Id));
         }
 
     }

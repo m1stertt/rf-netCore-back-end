@@ -11,15 +11,13 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CanManageSizesHandler handler)
         {
-            var defaultContext = context.Resource as DefaultHttpContext;
-            if (defaultContext != null)
+            if (context.Resource is DefaultHttpContext defaultContext)
             {
-                var user = defaultContext.Items["LoginUser"] as LoginUser;
-                if (user != null)
+                if (defaultContext.Items["LoginUser"] is LoginUser user)
                 {
                     var authService = defaultContext.HttpContext.RequestServices.GetRequiredService<IAuthService>();
                     var permissions = authService.GetPermissions(user.Id);
-                    if (permissions.Exists(p => p.Name.Equals("CanManageSizes")))
+                    if (permissions.Exists(p => p.Name.Equals("CanManageSizes")||p.Name.Equals("Admin")))
                     {
                         context.Succeed(handler);
                     }
@@ -27,7 +25,7 @@ namespace ScrumMasters.Webshop.WebAPI.PolicyHandlers
                     {
                         context.Fail();
                     }
-                }
+                }else context.Fail();
             }
             else
             {

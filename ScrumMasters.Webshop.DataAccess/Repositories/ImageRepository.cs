@@ -25,7 +25,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             return _context.Images.Select(pe => new Image()
             {
                 Id = pe.Id,
-                Desc = pe.Desc,
                 Path = pe.Path,
                 Title = pe.Title
             }).FirstOrDefault(image => image.Id == id);
@@ -37,7 +36,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             return _context.Images.Where(image => image.Product.Id == id).Select(pe => new Image()
             {
                 Id = pe.Id,
-                Desc = pe.Desc,
                 Path = pe.Path,
                 Title = pe.Title
             }).ToList();
@@ -50,7 +48,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 Id = image.Id,
                 Title = image.Title,
                 Path = image.Path,
-                Desc = image.Desc,
                 Product = _context.Products.FirstOrDefault(r => r.Id == image.Product.Id)
             };
             var savedEntity = _context.Images.Add(imageEntity).Entity;
@@ -60,7 +57,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 Id = savedEntity.Id,
                 Title = savedEntity.Title,
                 Path = savedEntity.Path,
-                Desc = savedEntity.Desc,
                 Product = new Product{ Id=savedEntity.Product.Id }
             };
         }
@@ -72,7 +68,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             {
                 Id = image.Id,
                 Title = image.Title,
-                Desc = image.Desc,
+                Path = image.Path,
             }).Entity;
             _context.SaveChanges();
             return new Image
@@ -80,8 +76,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
                 Id = savedEntity.Id,
                 Title = savedEntity.Title,
                 Path = savedEntity.Path,
-                Desc = savedEntity.Desc,
-                Product = new Product{ Id=savedEntity.Product.Id }
             };
         }
 
@@ -92,11 +86,7 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
             _context.SaveChanges();
             return new Image()
             {
-                Id = savedEntity.Id,
-                Title = savedEntity.Title,
-                Path = savedEntity.Path,
-                Desc = savedEntity.Desc,
-                Product = new Product{ Id=savedEntity.Product.Id }
+                Id = id,
             };
         }
     }
