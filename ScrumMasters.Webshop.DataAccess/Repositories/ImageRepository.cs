@@ -21,7 +21,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Image GetById(int id)
         {
-            if (id <= 0) return null;
             return _context.Images.Select(pe => new Image()
             {
                 Id = pe.Id,
@@ -32,7 +31,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public List<Image> GetByProductId(int id)
         {
-            if (id <= 0) return null;
             return _context.Images.Where(image => image.Product.Id == id).Select(pe => new Image()
             {
                 Id = pe.Id,
@@ -45,7 +43,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
         {
             var imageEntity = new ImageEntity()
             {
-                Id = image.Id,
                 Title = image.Title,
                 Path = image.Path,
                 Product = _context.Products.FirstOrDefault(r => r.Id == image.Product.Id)
@@ -63,7 +60,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
 
         public Image Update(Image image)
         {
-            if (image == null) return null;
             var savedEntity = _context.Update(new ImageEntity
             {
                 Id = image.Id,

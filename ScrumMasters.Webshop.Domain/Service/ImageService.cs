@@ -18,7 +18,7 @@ namespace ScrumMasters.Webshop.Domain.Service
 
         public Image GetById(int id)
         {
-            return _imageRepository.GetById(id);
+            return id <= 0 ? null : _imageRepository.GetById(id);
         }
 
         public Image Create(Image image)
@@ -28,17 +28,17 @@ namespace ScrumMasters.Webshop.Domain.Service
 
         public Image Update(Image image)
         {
-            return _imageRepository.Update(image);
+            return image == null ? null : _imageRepository.Update(image);
         }
 
         public Image DeleteById(int id)
         {
-            return _imageRepository.DeleteById(id);
+            return id <= 0 ? null : _imageRepository.DeleteById(id);
         }
 
         public List<Image> GetByProductId(int id)
         {
-            return _imageRepository.GetByProductId(id);
+            return id <= 0 ? null : _imageRepository.GetByProductId(id);
         }
     }
 }
