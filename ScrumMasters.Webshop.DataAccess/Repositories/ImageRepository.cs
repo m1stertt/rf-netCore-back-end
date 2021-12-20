@@ -11,7 +11,6 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
     public class ImageRepository : IImageRepository
     {
         
-        //@todo
         private readonly MainDbContext _context;
 
         public ImageRepository(MainDbContext ctx)
