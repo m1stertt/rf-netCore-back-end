@@ -165,7 +165,7 @@ namespace ScrumMasters.Webshop.WebAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Innotech.LegosforLife.WebApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ScrumMasters.Webshop.WebApi v1"));
                 app.UseCors("Development-cors");
                 
                 mainDbSeeder.SeedDevelopment();
