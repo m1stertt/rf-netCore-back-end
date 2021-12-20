@@ -78,7 +78,7 @@ namespace ScrumMasters.Webshop.WebAPI.Controllers
             return Ok(_productService.GetProductById(id));
         }
         
-        [HttpGet("/api/Product/Featured")] //@todo
+        [HttpGet("/api/Product/Featured")]
         public ActionResult<Product> GetFeatured()
         {
             return Ok(_productService.GetFeaturedProducts());
