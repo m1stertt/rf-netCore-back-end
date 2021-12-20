@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ScrumMasters.Webshop.Core.Models;
@@ -107,27 +108,11 @@ namespace ScrumMasters.Webshop.DataAccess.Repositories
         public InventoryStock DeleteById(int id)
         {
             if (id <= 0) return null;
-            var pe = _context.InventoryStock.Remove(new InventoryStockEntity() {Id = id}).Entity;
+            _context.InventoryStock.Remove(new InventoryStockEntity() {Id = id});
             _context.SaveChanges();
             return new InventoryStock()
             {
-                Id = pe.Id,
-                Amount = pe.Amount,
-                Product = new Product
-                {
-                    Id = pe.Product.Id,
-                },
-                Color = new Color
-                {
-                    Id = pe.Color.Id,
-                    Title = pe.Color.Title,
-                    ColorString = pe.Color.ColorString,
-                },
-                Size = new Size
-                {
-                    Id = pe.Size.Id,
-                    Title = pe.Size.Title
-                }
+                Id = id,
             };
         }
 

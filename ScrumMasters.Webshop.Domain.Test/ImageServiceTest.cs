@@ -131,5 +131,16 @@ namespace ScrumMasters.Webshop.Domain.Test
             var actual = _service.Create(_expected);
             Assert.Equal(_expected, actual);
         }
+        
+        [Fact]
+        public void GetImage_ByProductId_ReturnsImage()
+        {
+            List<Image> invList = new List<Image>();
+            invList.Add(_expected);
+            _mock.Setup(r => r.GetByProductId(1))
+                .Returns(invList);
+            var actual = _service.GetByProductId(1);
+            Assert.Equal(invList, actual);
+        }
     }
 }
